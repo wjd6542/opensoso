@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="branch">
+	
+	<!--  user 검색 List -->
+	<select id="selectBranchList" parameterType="hashmap" resultType="hashmap">
+		select
+			*
+		from
+			branch
+		order by family desc, depth asc
+	</select>
+	
+	<!--  user 검색 -->
+	<select id="selectBranch" parameterType="hashmap" resultType="hashmap">
+			select
+				*
+			from
+				branch
+			where id = #{id} and password =  #{pw}
+	</select>
+
+	<!-- ID 중복확인 -->
+	<select id="idCheck" parameterType="string" resultType="string">
+		select
+			id
+		from
+			branch
+		where
+			id=#{id}
+	</select>
+	
+	<!-- 유저 삽입 -->
+	<insert id="insertBranch" parameterType="hashmap" useGeneratedKeys="true">
+		insert into branch
+		(
+		
+		)
+		values
+		(
+
+		)
+	</insert>
+	
+	<!-- 유저 수정 -->
+	<update id="updateBranch" parameterType="hashmap">
+		update
+			branch
+		set
+			
+		where
+			idx = #{idx}
+	</update>
+	
+	<!-- 유저 삭제 -->
+	<delete id="deleteBranch" parameterType="hashmap">
+		delete from branch
+		where idx = #{idx}
+	</delete>
+</mapper>

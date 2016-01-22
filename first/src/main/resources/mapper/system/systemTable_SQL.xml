@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="systemTable">
+	
+	<!-- 
+		설명 : User 가 생성한 테이블 구조를 검색하는 쿼리
+		table_schema 는 database 명이다
+		테이터 베이스 검색하여 테이블 명 , 테이블 설명 , 컬럼명, 컬럼설명을 검색해온다
+	 -->
+	<select id="tableList" resultType="shares.vo.SystemTableVo">
+		select
+			distinct b.table_name, b.table_comment, a.column_name, a.column_comment
+		from
+			information_schema.columns a , information_schema.tables b
+		where
+			a.table_schema = 'shares' and
+			b.table_schema = 'shares' and
+			a.table_schema = b.table_schema and
+			a.table_name = b.table_name
+	</select>
+	
+</mapper>

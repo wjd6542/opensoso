@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+	
+	<!--  user 검색 List -->
+	<select id="selectUserList" parameterType="shares.vo.UserVo" resultType="shares.vo.UserVo">
+			select
+				*
+			from
+				user
+			order by no desc
+			limit ${startNo} , ${endNo}
+	</select>
+	
+	<!--  user 검색 -->
+	<select id="selectUser" parameterType="shares.vo.UserVo" resultType="shares.vo.UserVo">
+			select
+				*
+			from
+				user
+			where id = #{id} and password = #{password}
+	</select>
+
+	<!-- ID 중복확인 -->
+	<select id="idCheck" parameterType="string" resultType="string">
+		select
+			id
+		from
+			user
+		where
+			id=#{id}
+	</select>
+	
+	<!-- 전체 카운트 쿼리 -->
+	<select id="userTotalcnt" resultType="int">
+		select count(*) from user
+	</select>
+	
+	<!-- 유저 삽입 -->
+	<insert id="insertUser" parameterType="hashmap" useGeneratedKeys="true">
+		insert into user
+		(
+			id,				<!-- 아이디 -->
+			password,		<!-- 비밀번호 -->
+			name,			<!-- 이름 -->
+			email,			<!-- 이메일 -->
+			phon,			<!-- 휴대폰 -->
+			gender,			<!-- 성별 -->
+			birthday,		<!-- 생년월일 -->
+			hobby,			<!-- 취미 -->
+			forte,			<!-- 특기 -->
+			zipcode,		<!-- 우편번호 -->
+			addr11,			<!-- 주소 -->
+			addr12,			<!-- 상세주소 -->
+			authority,		<!-- 권한 -->
+			status,			<!-- 저장상태 -->
+			lat,			<!-- 위도 -->
+			lng				<!-- 경도 -->
+		)
+		values
+		(
+			#{id},
+			#{password},
+			#{name},
+			#{email},
+			#{phon},
+			#{gender},
+			#{birthday},
+			#{hobby},
+			#{forte},
+			#{zipcode},
+			#{addr11},
+			#{addr12},
+			#{authority},
+			'Y',
+			#{lat},
+			#{lng},
+		)
+	</insert>
+	
+	<!-- 유저 수정 -->
+	<update id="updateUser" parameterType="hashmap">
+		update
+			user
+		set
+			id=#{id},
+			password=#{password},
+			name=#{name},
+			email=#{email},
+			phon=#{phon},
+			gender=#{gender},
+			birthday=#{birthday},
+			hobby=#{hobby},
+			forte=#{forte},
+			zipcode=#{zipcode},
+			addr11=#{addr11},
+			addr12=#{addr12},
+			authority=#{authority},
+			status=#{status}
+		where
+			no = #{no}
+	</update>
+	
+	<!-- 유저 삭제 -->
+	<delete id="deleteUser" parameterType="hashmap">
+		delete from user
+		where no = #{no}
+	</delete>
+</mapper>

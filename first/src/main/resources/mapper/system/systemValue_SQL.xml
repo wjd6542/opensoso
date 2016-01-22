@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="systemValue">
+	
+	
+	<!--  코드 검색 -->
+	<select id="list" parameterType="shares.vo.SystemVo" resultType="shares.vo.SystemVo">
+		select
+			*
+		from
+			systemValue
+		where
+			status = 'Y' and systemCode=#{systemCode}
+		order by no desc
+	</select>
+	
+	<!-- 환경설정 결과 분류별 검색 -->
+	<select id="codeList" parameterType="String" resultType="shares.vo.SystemVo">
+		select
+			code, title
+		from
+			systemValue
+		where
+			systemCode=#{systemCode}
+	</select>
+	
+	<!-- 환경설정 결과  코드 중복확인 -->
+	<select id="codeCheck" parameterType="string" resultType="string">
+		select
+			code
+		from
+			systemValue
+		where
+			code=#{code}
+	</select>
+	
+	
+	<!-- 환경설정 결과  삽입 -->
+	<insert id="insert" parameterType="shares.vo.SystemVo" useGeneratedKeys="true">
+		insert into systemValue
+		(
+			code,
+			systemCode,
+			title,
+			memo,
+			sort,
+			status
+		)
+		values
+		(
+			#{code},
+			#{systemCode},
+			#{title},
+			#{memo},
+			#{sort},
+			'Y'
+		)
+	</insert>
+	
+	
+	<!-- 환경설정 결과 수정 -->
+	<update id="update" parameterType="shares.vo.SystemVo">
+		update 
+			systemValue
+		set
+			code=#{code},
+			title=#{title},
+			memo=#{memo},
+			sort=#{sort}
+		where
+			no = #{no}
+	</update>
+	
+	
+	<!-- 환경설정 결과 삭제 -->
+	<delete id="delete" parameterType="shares.vo.SystemVo">
+		delete from systemValue
+		where no = #{no}
+	</delete>
+</mapper>

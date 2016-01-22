@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="authority">
+	
+	<!--  코드 검색 -->
+	<select id="selectAuthorityList" parameterType="hashmap" resultType="hashmap">
+		select
+			*
+		from
+			authority
+		where
+			status = 'Y'
+		<if test="search != '' and searchString !=null">
+			and ${search} = #{searchString}
+		</if>
+		order by idx desc
+	</select>
+	
+	<!--  코드 검색 -->
+	<select id="selectAuthority" parameterType="hashmap" resultType="hashmap">
+		select
+			*
+		from
+			authority
+		where
+			status = 'Y' and idx =#{idx}
+		order by idx desc
+	</select>
+	
+	<!-- 코드 중복확인 -->
+	<select id="codeCheck" parameterType="string" resultType="string">
+		select
+			code
+		from
+			authority
+		where
+			code=#{code}
+	</select>
+	
+	
+	<!-- 권한 삽입 -->
+	<insert id="insertAuthority" parameterType="hashmap" useGeneratedKeys="true">
+		insert into authority
+		(
+			type,
+			code,
+			title,
+			memo,
+			orders,
+			status
+		)
+		values
+		(
+			#{type},
+			#{code},
+			#{title},
+			#{memo},
+			#{orders},
+			'Y'
+		)
+	</insert>
+	
+	<!-- 권한 수정 -->
+	<update id="updateAuthority" parameterType="hashmap">
+		update
+			authority
+		set
+			type=#{type},
+			code=#{code},
+			title=#{title},
+			memo=#{memo},
+			orders=#{orders}
+		where
+			idx = #{idx}
+	</update>
+	
+	<!-- 권한 삭제 -->
+	<delete id="deleteAuthority" parameterType="hashmap">
+		delete from authority
+		where idx = #{idx}
+	</delete>
+	
+</mapper>

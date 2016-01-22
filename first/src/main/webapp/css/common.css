@@ -1,0 +1,71 @@
+body{
+	overflow-x: hidden;
+}
+
+.pointer{
+	cursor: pointer;
+}
+.bold{
+	font-weight: bold;
+}
+.padding-10{
+	paddinp: 10;
+}
+.padding-20{
+	paddinp: 20;
+}
+.padding-30{
+	paddinp: 30;
+}
+.padding-top-10{
+	padding-top: 10;
+}
+.padding-top-20{
+	padding-top: 20;
+}
+.max-hight-100{
+	overflow:auto;
+	max-height: 100px;
+}
+.max-hight-150{
+	overflow:auto;
+	max-height: 150px;
+}
+.max-hight-200{
+	overflow:auto;
+	max-height: 200px;
+}
+.max-hight-300{
+	overflow:auto;
+	max-height: 300px;
+}
+.wid-100{
+	width: 100px;
+}
+.page{
+	cursor: pointer;
+}
+
+.bold{
+	font-weight: bold;
+}
+
+.my-control {
+  display: block;
+  width: auto;
+  height: 25px;
+  min-width: 100px;
+  padding: 6px 12px;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #ffffff;
+  background-image: none;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}

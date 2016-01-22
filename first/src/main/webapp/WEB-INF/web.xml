@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns="http://java.sun.com/xml/ns/javaee" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+		version="2.5">
+		
+	<!-- 접속 최초페이지 설정 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 인코딩을   utf-8 셋팅-->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>
+			org.springframework.web.filter.CharacterEncodingFilter
+		</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+	
+	<!-- 인코딩 필터 적용 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- xss 공격 필터 -->
+	<filter>
+		<filter-name>xssFilter</filter-name>
+		<filter-class>shares.filter.XSSFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>xssFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- 
+	스프링 설정파일을 읽어 들이기 위해서 ContextLoaderListener 가 필요하다. 
+	이 리스너가 동작해야 설정파일을 읽어들이고 필요한 객체들을 등록하고 만드는 것이다.
+	그럼 리스너는 동작을 하는데 설정파일의 위치를 알려주어야 할 것이 아닌가 그래서
+	<context-param> 안에 contextConfigLocation 이라고 해서 위치를 지정해 주는 것이다.
+	하나의 파일이든 여러개든 명시해서 읽어올 수 가 있다.
+	 -->
+	<servlet>
+		<servlet-name>Shares</servlet-name>
+		<servlet-class>
+				org.springframework.web.servlet.DispatcherServlet
+			</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/config/*-servlet.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<!-- URL 패턴 설정 -->
+	<servlet-mapping>
+		<servlet-name>Shares</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 환경설정 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:config/spring/context-*.xml</param-value>
+	</context-param>
+	
+	<!-- 에러처리-404 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/error/404.do</location>
+	</error-page>
+	<!-- 에러처리-405 -->
+	<error-page>
+		<error-code>405</error-code>
+		<location>/error/405.do</location>
+	</error-page>
+	<!-- 에러처리-500 -->
+	<error-page>
+		<error-code>500</error-code>
+		<location>/error/500.do</location>
+	</error-page>
+</web-app>
