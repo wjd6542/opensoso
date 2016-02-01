@@ -15,7 +15,7 @@ import shares.service.BranchSvc;
  * @date	2015-11-11
  * @tip		부서관리 Controller
  * <pre>
- * -------- 수정이력 ----------
+ * -------- 수정이력 --------------
  * 수정자	:	강정권
  * 수정일자	:	2015-11-07
  * 수정내용	:	class 작성
@@ -29,8 +29,8 @@ public class BranchCon {
 	Logger log = Logger.getLogger(this.getClass());
 	
 	// DAO 연결
-	@Resource(name="BranchService")
-	private BranchSvc branchService;
+	@Resource(name="BranchSvc")
+	private BranchSvc branchSvc;
 	
 	
 	/**

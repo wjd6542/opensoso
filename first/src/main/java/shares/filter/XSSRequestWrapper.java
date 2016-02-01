@@ -86,7 +86,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	 * @return
 	 */
 	private String stripXSS(String value) {
-		logs.info("XSS	inint	:	" + value);
+		//logs.info("XSS	inint	:	" + value);
 		if (value != null) {
 
 			// NOTE: It's highly recommended to use the ESAPI library and
@@ -105,7 +105,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 				}
 			}
 		}
-		logs.info("XSS	result	:	" + value);
+		//logs.info("XSS	result	:	" + value);
 		return value;
 	}
 }

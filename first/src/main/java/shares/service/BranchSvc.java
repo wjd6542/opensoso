@@ -6,7 +6,7 @@ import java.util.HashMap;
  * 
  * @author	강정권
  * @date	2015-11-29
- * @tip		부서Service
+ * @tip		부서 Service
  * <pre>
  * -------- 수정이력 --------------
  * 수정자	:	강정권

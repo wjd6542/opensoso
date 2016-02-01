@@ -377,7 +377,19 @@ function chk_num()
 		
 		
 		/**
-		 * 설명 : ajax 실행 처리
+		 * 설명 : map 데이터 input 으로 데이터 이동 함수
+		 * @param Array
+		 */
+		mapDataMove : function(Array){
+			for(var key in Array){
+				var value = Array[key];
+				$("#"+key).val(value);
+			}
+		},
+		
+		
+		/**
+		 * 설명 : ajax 실행 이동 처리
 		 * @param url
 		 * @param returnUrl
 		 * @param jsonObject
@@ -393,7 +405,42 @@ function chk_num()
 				// 성공
 				success:function(data)
 				{
-					
+					var code = data.code;
+					var msg = data.msg;
+					if(code=="SUCC")
+					{
+						alert(msg);
+						location.href = returnUrl;
+					}
+					else
+					{
+						alert(msg);
+					}
+				},
+				// 실패
+				error:function(request,status,error){
+					alert("시스템 에러 입니다. 에러코드 : "+request.status);
+				}
+			});
+		},
+		
+		
+		/**
+		 * 설명 : 비동기 통신 이후 알림창 출력
+		 * @param url
+		 * @param jsonObject
+		 */
+		ajaxAlert : function (url, jsonObject)
+		{
+			$.ajax(
+			{
+				type	: "POST",
+				url		: url,
+				data	: jsonObject,
+				dataType: "json",
+				// 성공
+				success:function(data)
+				{
 					var code = data.code;
 					var msg = data.msg;
 					if(code=="SUCC")
@@ -410,6 +457,35 @@ function chk_num()
 					alert("시스템 에러 입니다. 에러코드 : "+request.status);
 				}
 			});
+		},
+		
+		
+		/**
+		 * 설명 : ajaxreturn 함수
+		 * @param url
+		 * @param jsonObject
+		 * @returns {___anonymous7807_7808}
+		 */
+		ajaxData : function(url, jsonObject){
+			var returnObj = {};
+			$.ajax(
+			{
+				type	: "POST",
+				url		: url,
+				data	: jsonObject,
+				dataType: "json",
+				async : false,
+				// 성공
+				success:function(data)
+				{
+					returnObj = data;
+				},
+				// 실패
+				error:function(request,status,error){
+					alert("시스템 에러 입니다. 에러코드 : "+request.status);
+				}
+			});
+			return returnObj;
 		},
 		
 		

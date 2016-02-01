@@ -27,8 +27,10 @@
 			<jsp:include page="/include/sideMemu.jsp"/>
 			<form id="form" name="form" method="post" action="/userManager.do">
 			<input type="hidden" id="pageNo" name="pageNo">
+			<input type="hidden" id="no" name="no">
+			
 				<!-- content -->
-				<div class="col-sm-12 col-sm-offset-3 col-md-12 col-md-offset-2 main">
+				<div class="col-sm-12 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 					<div class="row placeholders">
 						<div class="col-xs-12 col-sm-10 placeholder">
 							<div class="row">
@@ -36,7 +38,7 @@
 									<div class="input-group">
 										<div class="input-group-btn">
 											<select class="form-control" id="search" name="search">
-												<option  value="">상세검색</option>
+												<option value="">상세검색</option>
 											</select>
 										</div>
 										<div class="input-group-btn">
@@ -64,7 +66,6 @@
 								<tr>
 									<td>
 										<div class="row text-center">
-											<div class="hidden-xs col-sm-1">번호</div>
 											<div class="col-xs-6 col-sm-2">아이디</div>
 											<div class="col-xs-6 col-sm-3">이름</div>
 											<div class="hidden-xs col-sm-2">생년월일</div>
@@ -75,20 +76,13 @@
 								</tr>
 								<c:forEach items="${userList}" var="userList" varStatus="cnt">
 								<tr>
-									<td class="pointer viewInfo" dir="${cnt.count}" data-toggle="tooltip" title="${userList.name} 님 고객 정보">
+									<td class="pointer viewInfo" dir="${userList.no}" data-toggle="tooltip" title="${userList.name} 님 고객 정보">
 										<div class="row text-center">
-											<div class="hidden-xs col-sm-1">${cnt.count}</div>
 											<div class="col-xs-6 col-sm-2">${userList.id}</div>
 											<div class="col-xs-6 col-sm-3">${userList.name}</div>
 											<div class="hidden-xs col-sm-2">${userList.birthday}</div>
 											<div class="hidden-xs col-sm-2">${userList.gender}</div>
 											<div class="hidden-xs col-sm-2">${userList.status}</div>
-											
-											<input type="hidden" id="id_${cnt.count}" value="${userList.id}">
-											<input type="hidden" id="name_${cnt.count}" value="${userList.name}">
-											<input type="hidden" id="birthday_${cnt.count}" value="${userList.birthday}">
-											<input type="hidden" id="gender_${cnt.count}" value="${userList.gender}">
-											<input type="hidden" id="status_${cnt.count}" value="${userList.status}">
 										</div>
 									</td>
 								</tr>
@@ -110,82 +104,82 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- 권한 모달영역 str -->
+				<div class="modal fade" id="aModal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title" id="exampleModalLabel">회원 상세 정보</h4>
+							</div>
+							<div class="modal-body">
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<label class="check" for="id">아이디</label>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+										<input type="text" class="form-control" id="id" name="id">
+									</div>
+								</div>
+								<div class="padding-top-10"></div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<label class="check" for="name">이름</label>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+										<input type="text" class="form-control" id="name" name="name">
+									</div>
+								</div>
+								<div class="padding-top-10"></div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<label class="check" for="birthday">생년월일</label>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+										<input type="text" class="form-control date" id="birthday" name="birthday">
+									</div>
+								</div>
+								<div class="padding-top-10"></div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<label for="orders" for="gender">성별</label>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+										<select class="form-control" id="gender" name="gender">
+											<option value="">성별선택</option>
+										</select>
+									</div>
+								</div>
+								<div class="padding-top-10"></div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-3">
+										<label for="status">상태</label>
+									</div>
+									<div class="col-xs-12 col-sm-9">
+										<select class="form-control" id="status" name="status">
+											<option value="">상태선택</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<span class="delete btn btn-danger">
+									<i class="fa fa-times-circle-o"></i> 삭제
+								</span>
+								<span class="update btn btn-primary" contextmenu="Update">
+									<i class="fa fa-check-circle-o"></i> 수정
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 권한 모달영역 end -->
+				
 			</form>
 		</div>
 	</div>
-	
-	
-	<!-- 권한 모달영역 str -->
-	<div class="modal fade" id="aModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="exampleModalLabel">회원 상세 정보</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-xs-12 col-sm-3">
-							<label class="check" for="id">아이디</label>
-						</div>
-						<div class="col-xs-12 col-sm-9">
-							<input type="text" class="form-control" id="id" name="id">
-						</div>
-					</div>
-					<div class="padding-top-10"></div>
-					<div class="row">
-						<div class="col-xs-12 col-sm-3">
-							<label class="check" for="name">이름</label>
-						</div>
-						<div class="col-xs-12 col-sm-9">
-							<input type="text" class="form-control" id="name" name="name">
-						</div>
-					</div>
-					<div class="padding-top-10"></div>
-					<div class="row">
-						<div class="col-xs-12 col-sm-3">
-							<label class="check" for="birthday">생년월일</label>
-						</div>
-						<div class="col-xs-12 col-sm-9">
-							<input type="text" class="form-control" id="birthday" name="birthday">
-						</div>
-					</div>
-					<div class="padding-top-10"></div>
-					<div class="row">
-						<div class="col-xs-12 col-sm-3">
-							<label for="orders" for="gender">성별</label>
-						</div>
-						<div class="col-xs-12 col-sm-9">
-							<input type="text" class="form-control" id="gender" name="gender">
-						</div>
-					</div>
-					<div class="padding-top-10"></div>
-					<div class="row">
-						<div class="col-xs-12 col-sm-3">
-							<label for="status">상태</label>
-						</div>
-						<div class="col-xs-12 col-sm-9">
-							<input type="text" class="form-control" id="status" name="status">
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<span class="btn btn-danger" data-dismiss="modal">
-						<i class="fa fa-times-circle-o"></i> 닫기
-					</span>
-					<span class="action btn btn-primary" contextmenu="Insert">
-						<i class="fa fa-check-circle-o"></i> 등록
-					</span>
-					<span class="action btn btn-primary" contextmenu="Update">
-						<i class="fa fa-check-circle-o"></i> 수정
-					</span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 권한 모달영역 end -->
-	
 </body>
 <!-- 스크립트 -->
 <script type='text/javascript' src='js/manager/userManager.js'></script>
@@ -194,11 +188,9 @@ $(document).ready(function ()
 {
 	// select box 생성
 	$("#gender").append("${gender}");
-	$("#emails").append("${emails}");
+	$("#status").append("${status}");
 	$("#search").append("${search}");
 	
-	
-	// 검색
 	$(".search").on("click", function(){
 		$("#form").submit();
 	});

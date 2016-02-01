@@ -1,6 +1,7 @@
 package shares.service;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import shares.vo.UserVo;
 
 /**
@@ -21,11 +22,11 @@ public interface UserSvc {
 	// 유저 검색
 	List<UserVo> selectUserList(String sqlId, HashMap<String, String> map) throws Exception;
 	// 유저확인
-	UserVo selectUser(String sqlId, UserVo memberVo) throws Exception;
+	UserVo userData(String sqlId, Map<String, String> paramMap) throws Exception;
 	// 중복확인
 	String idCheck(String sqlId, String value) throws Exception;
 	// 전체 갯수 
-	int userTotalcnt(String sqlId);
+	int userTotalcnt(String sqlId, HashMap<String, String> map);
 	// 유저 삽입
 	void userInsert(String sqlId, HashMap<String, String> map) throws Exception;
 	// 유저 수정

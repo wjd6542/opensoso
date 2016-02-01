@@ -1,13 +1,17 @@
 package shares.controller;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
 import shares.service.SystemSvc;
+import shares.var.Var;
 import shares.vo.SystemTableVo;
 import shares.vo.SystemVo;
 
@@ -15,7 +19,7 @@ import shares.vo.SystemVo;
  * 
  * @author	강정권
  * @date	2015-11-07
- * @tip		member Controller
+ * @tip		system Controller
  * <pre>
  * -------- 수정이력 --------------
  * 수정자	:	강정권
@@ -30,8 +34,8 @@ public class SystemCon {
 	// 로거
 	Logger log = Logger.getLogger(this.getClass());
 	// 시스템 서비스 연결
-	@Resource(name="SystemService")
-	private SystemSvc systemService;
+	@Resource(name="SystemSvc")
+	private SystemSvc systemSvc;
 	
 	
 	/**
@@ -43,7 +47,7 @@ public class SystemCon {
 	 */
 	@RequestMapping(value="/tableManager.do")
 	public ModelAndView tableManager(SystemTableVo vo , ModelAndView mv) throws Exception{
-		List<SystemTableVo> tableList = systemService.list("systemTable.tableList", vo);
+		List<SystemTableVo> tableList = systemSvc.list(Var.sysTableList, vo);
 		mv.addObject("tableList", tableList);
 		mv.setViewName("manager/system/tableManager");
 		return mv;
@@ -62,16 +66,16 @@ public class SystemCon {
 	public ModelAndView codeManager(SystemVo system, ModelAndView mv) throws Exception{
 		
 		// 대분류 검색 데이터
-		List<SystemVo> codeList = systemService.list("systemCode.list", system);
+		List<SystemVo> codeList = systemSvc.list(Var.sysCodeList, system);
 		// 소분류 검색 데이터
 		List<SystemVo> valueList = null;
 		// 만약 대분류 검색 코드가 있는경우
 		if(system.getSystemCode() != null)
-			valueList = systemService.list("systemValue.list", system);
+			valueList = systemSvc.list(Var.sysValueList, system);
 		
 		// select box 생성
-		//List<SystemVo> psmaps = systemService.list("systemValue.codeList", "systemCode");
-		//List<SystemVo> csmap = systemService.list("systemValue.codeList", "ccode");
+		//List<SystemVo> psmaps = systemSvc.list("systemValue.codeList", "systemCode");
+		//List<SystemVo> csmap = systemSvc.list("systemValue.codeList", "ccode");
 		//mv.addObject("pSearch", Function.sysOption(psmaps, system.getSerchType()));
 		//mv.addObject("cSearch", Function.sysOption(csmap, system.getSerchType()));
 		//mv.addObject("pString", system.getSerchString());
@@ -101,25 +105,25 @@ public class SystemCon {
 		String actionType =  system.getActionType();
 		if("codeInsert".equals(actionType))
 		{
-			systemService.insert("systemCode.codeInsert", system);
+			systemSvc.insert(Var.sysCodeInsert, system);
 			mv.addObject("code", "SUCC");
 			mv.addObject("msg", "삽입 성공!");
 		}
 		else if("codeUpdate".equals(system.getActionType()))
 		{
-			systemService.update("systemCode.update", system);
+			systemSvc.update(Var.sysCodeUpdate, system);
 			mv.addObject("code", "SUCC");
 			mv.addObject("msg", "수정 성공!");
 		}
 		else if("valueInsert".equals(system.getActionType()))
 		{
-			systemService.insert("systemValue.insert", system);
+			systemSvc.insert(Var.sysValueInsert, system);
 			mv.addObject("code", "SUCC");
 			mv.addObject("msg", "삽입 성공!");
 		}
 		else if("codeUpdate".equals(system.getActionType()))
 		{
-			systemService.update("systemValue.update", system);
+			systemSvc.update(Var.sysValueUpdate, system);
 			mv.addObject("code", "SUCC");
 			mv.addObject("msg", "수정 성공!");
 		}
@@ -139,11 +143,11 @@ public class SystemCon {
 		String sqlId = "";
 		
 		if("code".equals(system.getActionType()))
-			sqlId = "systemCode.codeCheck";
+			sqlId = Var.sysCodeCheck;
 		else
-			sqlId = "systemValue.codeCheck";
+			sqlId = Var.sysValueCheck;
 		
-		String result = systemService.check(sqlId, system.getCode());
+		String result = systemSvc.check(sqlId, system.getCode());
 		if(result == null || result == "")
 		{
 			mv.addObject("code", "SUCC");
@@ -169,11 +173,11 @@ public class SystemCon {
 		ModelAndView mv = new ModelAndView("jsonView");
 		String sqlId = "";
 		if("codeDelete".equals(system.getActionType()))
-			sqlId = "systemCode.delete";
+			sqlId = Var.sysCodeDelete;
 		else
-			sqlId = "systemValue.delete";
+			sqlId = Var.sysValueDelete;
 		try{
-			systemService.delete(sqlId, system);
+			systemSvc.delete(sqlId, system);
 			mv.addObject("code", "SUCC");
 			mv.addObject("msg", "코드가 삭제되었습니다.");
 		}catch(Exception e){

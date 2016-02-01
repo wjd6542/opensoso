@@ -11,9 +11,17 @@ import org.springframework.web.multipart.MultipartFile;
 public class CommonVo {
 	private String pageNo = "";				// 페이지 번호
 	private String actionType = "";			// 액션구분 삽입/수정/삭제
-	private String serchType = "";			// 검색 구분
+	private String search = "";				// 검색 구분
+	private String serchType = "";			// 검새구분
 	private String serchString = "";		// 검색 데이터
 	MultipartFile file;						// 파일
+	
+	public String getSerchType() {
+		return serchType;
+	}
+	public void setSerchType(String serchType) {
+		this.serchType = serchType;
+	}
 	
 	public String getPageNo() {
 		return pageNo;
@@ -27,11 +35,13 @@ public class CommonVo {
 	public void setActionType(String actionType) {
 		this.actionType = actionType;
 	}
-	public String getSerchType() {
-		return serchType;
+	
+	
+	public String getSearch() {
+		return search;
 	}
-	public void setSerchType(String serchType) {
-		this.serchType = serchType;
+	public void setSearch(String search) {
+		this.search = search;
 	}
 	public String getSerchString() {
 		return serchString;

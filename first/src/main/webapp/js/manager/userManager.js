@@ -5,22 +5,43 @@
  */
 
 
-/**
- * 설명 : 필수 할목 설정
- */
-$(document).ready(function ()
-{
-	// 페이지 이동
-	$.util.pageMove();
+
+// 페이지 이동
+$.util.pageMove();
+
+// 고객정보 수정
+$(".viewInfo").on("click",function(){
+	var url = "/userData.do";
+	var no = $(this).attr("dir");
+	var jsonObject = {no : no};
+	var returnObj = {};
+	var mapArr = {};
 	
-	// 모달 데이터 이동
-	$(".viewInfo").on("click",function(){
-		var idx = $(this).attr("dir");
-		var authorityArr = new Array("id","name","birthday","gender","status");
-		$.util.valueChang(authorityArr,idx);
-		$('#aModal').modal("show");
-		
-		// 테이블 row 색상 변경 info
-		$.util.rowColor(this);
-	});
+	returnObj = $.util.ajaxData(url, jsonObject);
+	mapArr = returnObj.userVo;
+	$.util.mapDataMove(mapArr);
+	$.util.rowColor(this);
+	
+	$('#aModal').modal("show");
+});
+
+// 고객정보 수정
+$(".update").on("click",function(){
+	var url = "/userUpdate.do";
+	var result = {};
+	var userArr = new Array("no","id","name","birthday","gender","status");
+	result = $.util.jsonObjectMk(userArr,"form");
+	$.util.ajaxAction(url, location.href, result);
+});
+
+// 고객정보 삭제
+$(".delete").on("click",function(){
+	var url = "/userDelete.do";
+	var result = {};
+	var name = $("#name").val();
+	var userArr = new Array("no");
+	result = $.util.jsonObjectMk(userArr,"form");
+	if(confirm(name + "님의 고객정보 를 삭제하시겠습니까 ?")){
+		$.util.ajaxAction(url, location.href, result);
+	}
 });

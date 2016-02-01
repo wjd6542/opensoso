@@ -1,5 +1,6 @@
 create database Shares;
 
+
 -- 유저 테이블
 create table Shares.user (
 	no 				int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '고객번호',
@@ -22,13 +23,14 @@ create table Shares.user (
 );
 ALTER TABLE Shares.user COMMENT ='유저 테이블';
 
+
 -- 시스템 코드 테이블
 create table shares.systemCode (
 	no 				int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '시스템코드번호',
-    code			varchar(30) 	COMMENT '코드명',
-    title			varchar(30) 	COMMENT '코드이름',
-    memo			varchar(30) 	COMMENT '코드설명',
-    status			char(1) 		COMMENT '저장상태 Y : N'
+	code			varchar(30) 	COMMENT '코드명',
+	title			varchar(30) 	COMMENT '코드이름',
+	memo			varchar(30) 	COMMENT '코드설명',
+	status			char(1) 		COMMENT '저장상태 Y : N'
 );
  ALTER TABLE Shares.systemCode COMMENT ='시스템 코드 테이블';
 
@@ -37,14 +39,28 @@ drop table shares.systemValue;
 -- 시스템 코드 값 테이블
 create table shares.systemValue(
 	no 				int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '시스템코드번호',
-    systemCode		varchar(30) 	COMMENT '시스템코드 코드값',
-    code			varchar(30) 	COMMENT '코드명',
-    title			varchar(30) 	COMMENT '코드이름',
-    memo			varchar(30) 	COMMENT '코드설명',
-    sort			int 			COMMENT '정렬순서',
-    status			char(1) 		COMMENT '저장상태 Y : N'
+	systemCode		varchar(30) 	COMMENT '시스템코드 코드값',
+	code			varchar(30) 	COMMENT '코드명',
+	title			varchar(30) 	COMMENT '코드이름',
+	memo			varchar(30) 	COMMENT '코드설명',
+	sort			char(1) 		COMMENT '정렬순서',
+	status			char(1) 		COMMENT '저장상태 Y : N'
 );
 ALTER TABLE Shares.systemValue COMMENT ='시스템 코드 값 테이블';
+
+
+-- 게시판 관리 테이블테이블
+create table shares.systemBorder(
+	no				int NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '테이블 번호',
+	title			varchar(30)		COMMENT '게시판 명',
+	type			char(3)			COMMENT '게시판 구분',
+	authority		char(3)			COMMENT '게시판 사용 권한',
+	rippleUser		char(1)			COMMENT '댓글 사용유무 Y : N',
+	fileUser		char(1)			COMMENT '파일 사용유무 Y : N',
+	sort			char(2) 		COMMENT '정렬순서'
+);
+ALTER TABLE Shares.systemBorder COMMENT ='게시판 관리 테이블';
+
 
 -- 시스템 코드 값 테이블
 select

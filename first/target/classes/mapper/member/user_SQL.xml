@@ -4,26 +4,39 @@
 <mapper namespace="user">
 	
 	<!--  user 검색 List -->
-	<select id="selectUserList" parameterType="shares.vo.UserVo" resultType="shares.vo.UserVo">
-			select
-				*
-			from
-				user
-			order by no desc
-			limit ${startNo} , ${endNo}
+	<select id="list" parameterType="hashmap" resultType="shares.vo.UserVo">
+		select
+			*
+		from
+			user
+		where status = 'U01'
+		<if test="search != '' and search !=null">
+			and ${search} = #{searchString}
+		</if>
+		order by no desc
+		limit ${startNo} , ${endNo}
+	</select>
+	
+	<!--  user 검색 -->
+	<select id="data" parameterType="hashmap" resultType="shares.vo.UserVo">
+		select
+			*
+		from
+			user
+		where no = ${no}
 	</select>
 	
 	<!--  user 검색 -->
 	<select id="selectUser" parameterType="shares.vo.UserVo" resultType="shares.vo.UserVo">
-			select
-				*
-			from
-				user
-			where id = #{id} and password = #{password}
+		select
+			*
+		from
+			user
+		where id = #{id} and password = #{password}
 	</select>
 
 	<!-- ID 중복확인 -->
-	<select id="idCheck" parameterType="string" resultType="string">
+	<select id="idCheck" parameterType="string" resultType="hashmap">
 		select
 			id
 		from
@@ -33,49 +46,34 @@
 	</select>
 	
 	<!-- 전체 카운트 쿼리 -->
-	<select id="userTotalcnt" resultType="int">
-		select count(*) from user
+	<select id="totalcnt" parameterType="hashmap" resultType="int" >
+		select count(*)
+		from user
+		where status = 'U01'
+		<if test="search != '' and search !=null">
+			and ${search} = #{searchString}
+		</if>
 	</select>
 	
 	<!-- 유저 삽입 -->
 	<insert id="insertUser" parameterType="hashmap" useGeneratedKeys="true">
 		insert into user
 		(
-			id,				<!-- 아이디 -->
-			password,		<!-- 비밀번호 -->
-			name,			<!-- 이름 -->
-			email,			<!-- 이메일 -->
-			phon,			<!-- 휴대폰 -->
-			gender,			<!-- 성별 -->
-			birthday,		<!-- 생년월일 -->
-			hobby,			<!-- 취미 -->
-			forte,			<!-- 특기 -->
-			zipcode,		<!-- 우편번호 -->
-			addr11,			<!-- 주소 -->
-			addr12,			<!-- 상세주소 -->
-			authority,		<!-- 권한 -->
-			status,			<!-- 저장상태 -->
-			lat,			<!-- 위도 -->
-			lng				<!-- 경도 -->
+			id,
+			password,
+			name,
+			nickName,
+			email,
+			status
 		)
 		values
 		(
 			#{id},
 			#{password},
 			#{name},
+			#{nickName},
 			#{email},
-			#{phon},
-			#{gender},
-			#{birthday},
-			#{hobby},
-			#{forte},
-			#{zipcode},
-			#{addr11},
-			#{addr12},
-			#{authority},
-			'Y',
-			#{lat},
-			#{lng},
+			'U01'
 		)
 	</insert>
 	

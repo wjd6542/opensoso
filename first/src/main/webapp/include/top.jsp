@@ -12,22 +12,27 @@
 	<link rel="stylesheet" href="css/font-awesome.min.css">
 	
 	<!-- css -->
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-toggle.css">
-	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
-	<link rel="stylesheet" href="css/dashboard.css">
-	<link rel="stylesheet" href="css/dashboard.css">
-	<link rel="stylesheet" href="css/jquery.treeview.css">
-	<link rel="stylesheet" href="css/table/jquery.dataTables.css">
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap/bootstrap-toggle.css">
+	<link rel="stylesheet" href="css/bootstrap/bootstrap-datepicker.css">
 	
+	<link rel="stylesheet" href="css/jquery/dataTables.css">
+	<link rel="stylesheet" href="css/jquery/dashboard.css">
+	<link rel="stylesheet" href="css/jquery/treeview.css">
+	<link rel="stylesheet" href="css/summernote.css">
 	
 	<link rel="stylesheet" href="css/screen.css">
 	<link rel="stylesheet" href="css/common.css">
 	
 	<!-- 스크립트파일 -->
 	<script type='text/javascript' src='js/jquery/jquery.js'></script>
-	<script type='text/javascript' src='js/jquery/jquery.cookie.js'></script>
-	<script type='text/javascript' src='js/table/jquery.dataTables.min.js'></script>
+	<script type='text/javascript' src='js/jquery/fileDownload.js'></script>
+	<script type='text/javascript' src='js/jquery/cookie.js'></script>
+	<script type='text/javascript' src='js/jquery/dataTables.min.js'></script>
+	<script type='text/javascript' src='js/jquery/loadingoverlay.js'></script>
+	<script type='text/javascript' src='js/jquery/summernote.js'></script>
+	<script type='text/javascript' src='js/jquery/summernote-kr.js'></script>
+	
 	<script type='text/javascript' src='js/bootstrap/bootstrap.js'></script>
 	<script type='text/javascript' src='js/bootstrap/bootstrap-toggle.js'></script>
 	<script type='text/javascript' src='js/bootstrap/bootstrap-datepicker.js'></script>
@@ -42,11 +47,11 @@
 		$(function () {
 			$('[data-toggle="tooltip"]').tooltip();
 		});
+		
 		// 달력
 		$('.date').datepicker({
 			language : 'ko',
 			format: 'yyyy-mm-dd',
-			startDate: '-3d',
 			todayHighlight: true
 		});
 		
@@ -56,6 +61,7 @@
 		$.util.toggleCookie("sidelook","sideCheck");
 		
 	});
+	
 </script>
 <body>
 	
@@ -83,10 +89,18 @@
 					<li class="dropdown">
 						<a href="#" id="Menu" data-toggle="dropdown"> 게시판 <i class="caret"></i></a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="Menu">
-							<li><a href="#"><i class="fa fa-eye"></i> 공지게시판</a></li>
-							<li><a href="#"><i class="fa fa-gg"></i> Q＆A 게시판</a></li>
-							<li><a href="#"><i class="fa fa-refresh"></i> 소스공유</a></li>
-							<li><a href="#"><i class="fa fa-paper-plane"></i> 커뮤니티</a></li>
+							<li>
+								<a href="/borderList.do?borderType=B01"><i class="fa fa-eye"></i> 공지게시판</a>
+							</li>
+							<li>
+								<a href="/borderList.do?borderType=B02"><i class="fa fa-comments-o"></i> Q＆A 게시판</a>
+							</li>
+							<li>
+								<a href="/borderList.do?borderType=B03"><i class="fa fa-refresh"></i> 소스공유</a>
+							</li>
+							<li>
+								<a href="/borderList.do?borderType=B04"><i class="fa fa-paper-plane"></i> 커뮤니티</a>
+							</li>
 						</ul>
 					</li>
 					

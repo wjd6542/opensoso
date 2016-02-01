@@ -223,7 +223,7 @@ public class Paging {
 		 * @param paramMap
 		 * @return
 		 */
-		public HashMap<String,String> pagegingsetting(int pageNo, int pageSize, int totalcnt, HashMap<String,String> paramMap)
+		public HashMap<String,String> setting(int pageNo, int pageSize, int totalcnt, HashMap<String,String> paramMap)
 		{
 			this.setPageNo(pageNo);
 			this.setPageSize(pageSize);

@@ -1,5 +1,4 @@
 package shares.util;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,12 +8,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 
 public class Directory {
 	public static ArrayList<String> dirList = new ArrayList<String>();
-	public static ArrayList<testFile> fileList = new ArrayList<testFile>(); 
-	public static String source = "D:/workerbook/first/src/main/java";
-	
+	public static ArrayList<testFile> fileList = new ArrayList<testFile>();
+	public static HttpServletRequest request;
+	public static String source = "D:/workerbook/first/";
 	
 	public static void init(){
 		new Directory();
@@ -37,6 +37,7 @@ public class Directory {
 			for(int i = 0 ; i < Directory.fileList.size() ; i++){
 				br = new BufferedReader(new InputStreamReader(new FileInputStream(fileList.get(i).ft)));
 				bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileList.get(i).path)));
+				
 				while(true){
 					String str = br.readLine(); 
 					if(str == null) break; 
@@ -64,7 +65,7 @@ public class Directory {
 					testFile tf = new testFile(); 
 					tf.path = path; 
 					tf.ft = file; 
-					System.out.println(path);
+					//System.out.println(path);
 					
 					Directory.fileList.add(tf); 
 					

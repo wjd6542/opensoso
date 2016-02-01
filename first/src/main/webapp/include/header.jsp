@@ -5,29 +5,38 @@
 <!DOCTYPE>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<!-- CSS파일 -->
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/bootstrap-datepicker.css" rel="stylesheet">
-	<link href="css/dashboard.css" rel="stylesheet">
-	<link href="css/common.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-	<!-- 스크립트파일 -->
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.js"></script>
-	<script src="js/bootstrap-datepicker.js"></script>
-	<script src="js/holder.js"></script>
-	<script src="js/script.js"></script>
 	
-	<!-- 테이블 설정 -->
-	<link href="css/table/dataTables.bootstrap.css" rel="stylesheet">
-	<link href="css/table/dataTables.foundation.css" rel="stylesheet">
-	<link href="css/table/dataTables.jqueryui.css" rel="stylesheet">
-	<link href="css/table/jquery.dataTables_themeroller.css" rel="stylesheet">
-	<link href="css/table/jquery.dataTables.css" rel="stylesheet">
-		
-	<link href="css/table/jquery.dataTables.css" rel="stylesheet">
-	<script src="js/table/jquery.dataTables.min.js"></script>
-<title>프로젝트</title>
+	<!-- 아이콘 -->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	
+	<!-- css -->
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap/bootstrap-toggle.css">
+	<link rel="stylesheet" href="css/bootstrap/bootstrap-datepicker.css">
+	
+	<link rel="stylesheet" href="css/jquery/dataTables.css">
+	<link rel="stylesheet" href="css/jquery/dashboard.css">
+	<link rel="stylesheet" href="css/jquery/treeview.css">
+	<link rel="stylesheet" href="css/summernote.css">
+	
+	<link rel="stylesheet" href="css/screen.css">
+	<link rel="stylesheet" href="css/common.css">
+	
+	<!-- 스크립트파일 -->
+	<script type='text/javascript' src='js/jquery/jquery.js'></script>
+	<script type='text/javascript' src='js/jquery/cookie.js'></script>
+	<script type='text/javascript' src='js/jquery/dataTables.min.js'></script>
+	<script type='text/javascript' src='js/jquery/loadingoverlay.js'></script>
+	<script type='text/javascript' src='js/jquery/summernote.js'></script>
+	<script type='text/javascript' src='js/jquery/summernote-kr.js'></script>
+	
+	<script type='text/javascript' src='js/bootstrap/bootstrap.js'></script>
+	<script type='text/javascript' src='js/bootstrap/bootstrap-toggle.js'></script>
+	<script type='text/javascript' src='js/bootstrap/bootstrap-datepicker.js'></script>
+	<script type="text/javascript" src="js/util/function.js"></script>
+	<script type="text/javascript" src="js/holder.js"></script>
+	
+	<title>프로젝트</title>
 </head>

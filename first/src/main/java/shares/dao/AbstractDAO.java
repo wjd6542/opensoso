@@ -35,7 +35,7 @@ public class AbstractDAO {
 	 */
 	protected void printQueryId(String queryId) {
 		if(log.isDebugEnabled()){
-			log.debug("\t QueryId  \t:  " + queryId);
+			//log.debug("\t QueryId  \t:  " + queryId);
 		}
 	}
 	
@@ -57,7 +57,6 @@ public class AbstractDAO {
 	 * @return
 	 */
 	public Object update(String queryId, Object params){
-		printQueryId(queryId);
 		return sqlSession.update(queryId, params);
 	}
 	
@@ -68,7 +67,6 @@ public class AbstractDAO {
 	 * @return
 	 */
 	public Object delete(String queryId, Object params){
-		printQueryId(queryId);
 		return sqlSession.delete(queryId, params);
 	}
 	
@@ -78,7 +76,6 @@ public class AbstractDAO {
 	 * @return
 	 */
 	public Object selectOne(String queryId){
-		printQueryId(queryId);
 		return sqlSession.selectOne(queryId);
 	}
 	
@@ -89,7 +86,6 @@ public class AbstractDAO {
 	 * @return
 	 */
 	public Object selectOne(String queryId, Object params){
-		printQueryId(queryId);
 		return sqlSession.selectOne(queryId, params);
 	}
 	/**
@@ -99,7 +95,6 @@ public class AbstractDAO {
 	 */
 	@SuppressWarnings("rawtypes")
 	public List selectList(String queryId){
-		printQueryId(queryId);
 		return sqlSession.selectList(queryId);
 	}
 	
@@ -111,7 +106,6 @@ public class AbstractDAO {
 	 */
 	@SuppressWarnings("rawtypes")
 	public List selectList(String queryId, Object params){
-		printQueryId(queryId);
 		return sqlSession.selectList(queryId,params);
 	}
 }

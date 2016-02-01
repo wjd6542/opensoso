@@ -3,13 +3,11 @@ import java.util.List;
 import shares.vo.SystemTableVo;
 import shares.vo.SystemVo;
 
-
 /**
  * 
  * @author	강정권
  * @date	2015-11-29
- * @tip		시스템 코드 제어 Service
- * 			메소드명이 같은것은 오버로딩 된것이라 매개변수가 틀림
+ * @tip		시스템  제어 Service
  * <pre>
  * -------- 수정이력 --------------
  * 수정자	:	강정권

@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import shares.service.BorderSvc;
 import shares.service.SystemSvc;
 import shares.service.UserSvc;
 import shares.util.Function;
-import shares.util.SearchTest;
+import shares.var.Var;
+import shares.vo.BorderVo;
 import shares.vo.SystemVo;
 import shares.vo.UserVo;
 
@@ -26,7 +28,7 @@ import shares.vo.UserVo;
  * @date	2015-10-17
  * @tip		user Controller
  * <pre>
- * -------- 수정이력 ----------
+ * -------- 수정이력 --------------
  * 수정자	:	강정권
  * 수정일자	:	2015-10-17
  * 수정내용	:	class 작성
@@ -39,14 +41,18 @@ public class UserCon {
 	// 로거
 	Logger logs = Logger.getLogger(this.getClass());
 	
-	
 	// 유저 서비스 연결
-	@Resource(name="UserService")
-	private UserSvc userService;
+	@Resource(name="UserSvc")
+	private UserSvc userSvc;
 	
 	// 시스템 서비스 연결
-	@Resource(name="SystemService")
-	private SystemSvc systemService;
+	@Resource(name="SystemSvc")
+	private SystemSvc systemSvc;
+	
+	// 게시판 서비스 연결
+	@Resource(name="BorderSvc")
+	private BorderSvc borderSvc;
+	
 	
 	/**
 	 * 메인화면
@@ -58,10 +64,23 @@ public class UserCon {
 	 */
 	@RequestMapping(value="/index.do")
 	public ModelAndView main(@RequestParam HashMap<String,String> paramMap, ModelAndView mv, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		SearchTest.setUp(request, response);
+		paramMap.put("borderType", "B01");
+		List<BorderVo> borderList1 = borderSvc.borderList(Var.borderMainList, paramMap);
+		paramMap.put("borderType", "B02");
+		List<BorderVo> borderList2 = borderSvc.borderList(Var.borderMainList, paramMap);
+		paramMap.put("borderType", "B03");
+		List<BorderVo> borderList3 = borderSvc.borderList(Var.borderMainList, paramMap);
+		paramMap.put("borderType", "B04");
+		List<BorderVo> borderList4 = borderSvc.borderList(Var.borderMainList, paramMap);
+		
+		mv.addObject("borderList1", borderList1);
+		mv.addObject("borderList2", borderList2);
+		mv.addObject("borderList3", borderList3);
+		mv.addObject("borderList4", borderList4);
 		mv.setViewName("/index");
 		return mv;
 	}
+	
 	
 	/**
 	 * 로그인화면
@@ -77,6 +96,7 @@ public class UserCon {
 		return mv;
 	}
 	
+	
 	/**
 	 * 로그인 Action
 	 * @param paramMap
@@ -85,10 +105,10 @@ public class UserCon {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/loginAction.do")
-	public ModelAndView loginAction(UserVo vo) throws Exception{
+	public ModelAndView loginAction(@RequestParam Map<String, String> paramMap) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
 		try{
-			UserVo member = userService.selectUser("user.selectUser", vo);
+			UserVo member = userSvc.userData(Var.selectUser, paramMap);
 			if(member == null)
 			{
 				mv.addObject("code", "FAIL");
@@ -108,6 +128,7 @@ public class UserCon {
 		return mv;
 	}
 	
+	
 	/**
 	 * ID/PW 찾기 화면
 	 * @param paramMap
@@ -121,6 +142,7 @@ public class UserCon {
 		mv.setViewName("/user/idpwSearch");
 		return mv;
 	}
+	
 	
 	/**
 	 * 약관동의 화면
@@ -147,16 +169,35 @@ public class UserCon {
 	 */
 	@RequestMapping(value="/join.do")
 	public ModelAndView join(@RequestParam HashMap<String, String> paramMap, ModelAndView mv, HttpServletRequest request) throws Exception{
-		
-		List<SystemVo> sexMap = systemService.list("systemValue.codeList", "gender");
-		List<SystemVo> emailMap = systemService.list("systemValue.codeList", "email");
+		List<SystemVo> sexMap = systemSvc.list(Var.sysValueCodeList, "gender");
+		List<SystemVo> emailMap = systemSvc.list(Var.sysValueCodeList, "email");
 		// select box 생성
 		mv.addObject("gender",  Function.sysOption(sexMap, ""));
 		mv.addObject("emails",  Function.sysOption(emailMap, ""));
-		
 		mv.setViewName("/user/join");
 		return mv;
 	}
+	
+	
+	/**
+	 * 설명 : 간편 회원가입
+	 * @param paramMap
+	 * @param mv
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/simpleJoin.do")
+	public ModelAndView simpleJoin(@RequestParam HashMap<String, String> paramMap, ModelAndView mv, HttpServletRequest request) throws Exception{
+		List<SystemVo> sexMap = systemSvc.list(Var.sysValueCodeList, "gender");
+		List<SystemVo> emailMap = systemSvc.list(Var.sysValueCodeList, "email");
+		// select box 생성
+		mv.addObject("gender",  Function.sysOption(sexMap, ""));
+		mv.addObject("emails",  Function.sysOption(emailMap, ""));
+		mv.setViewName("/user/simpleJoin");
+		return mv;
+	}
+	
 	
 	/**
 	 * 회원가입 Action
@@ -169,13 +210,13 @@ public class UserCon {
 	{
 		ModelAndView mv = new ModelAndView("jsonView");
 		try{
-			userService.userInsert("user.insertUser", paramMap);
+			userSvc.userInsert(Var.insertUser, paramMap);
 			mv.addObject("code", "SUCC");
 			mv.addObject("msg", "회원가입되었습니다.");
 		}catch(Exception e){
+			e.printStackTrace();
 			mv.addObject("code", "FAIL");
 			mv.addObject("msg", "회원 등록에 실패하였습니다.");
-			System.out.println(e);
 		}
 		return mv;
 	}

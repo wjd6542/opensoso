@@ -30,7 +30,7 @@
 	</select>
 	
 	<!-- 대분류 코드 삽입 -->
-	<insert id="codeInsert" parameterType="shares.vo.SystemVo" useGeneratedKeys="true">
+	<insert id="insert" parameterType="shares.vo.SystemVo" useGeneratedKeys="true">
 		insert into systemCode
 		(
 			code,

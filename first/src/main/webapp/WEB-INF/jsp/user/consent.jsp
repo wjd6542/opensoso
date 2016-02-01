@@ -20,27 +20,6 @@
 <!-- 상단 -->
 <jsp:include page="/include/top.jsp"/>
 
-<script type="text/javascript">
-	$(document).ready(function ()
-	{
-		// 아이디 비밀번호 찾기
-		$(".join").on("click",function(){
-			// 유효성 검사
-			if($.util.nullCheck("joinCk","약관동의는 필수입니다.")) return false;
-			if($.util.nullCheck("ssnCk","약관동의는 필수입니다.")) return false;
-			
-			$(location).attr('href',"/join.do");
-		});
-		
-		// 라디오박스 전체 체크
-		$(".allCheck").on("click",function(){
-			// 체크가 안되어있다면.
-			$("input:radio[name='joinCk'][value='Y']").attr("checked",true);
-			$("input:radio[name='ssnCk'][value='Y']").attr("checked",true);
-		});
-	});
-</script>
-
 <body>
 	<div class="container-fluid">
 		<div class="row">
@@ -292,6 +271,9 @@
 							<div class="join btn btn-default">
 								<i class="fa fa-user fa-lg"></i> 회원가입
 							</div>
+							<div class="simpleJoin btn btn-default">
+								<i class="fa fa-user fa-lg"></i> 간편 회원가입
+							</div>
 						</div>
 						</div>
 					</div>
@@ -300,3 +282,5 @@
 		</div>
 	</div>
 </body>
+<!-- 스크립트 -->
+<script type="text/javascript" src="js/user/consent.js"></script>

@@ -75,6 +75,11 @@
 	
 	<!-- 에러처리-404 -->
 	<error-page>
+		<error-code>400</error-code>
+		<location>/error/400.do</location>
+	</error-page>
+	<!-- 에러처리-404 -->
+	<error-page>
 		<error-code>404</error-code>
 		<location>/error/404.do</location>
 	</error-page>

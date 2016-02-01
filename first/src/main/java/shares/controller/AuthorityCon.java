@@ -19,7 +19,7 @@ import shares.vo.SystemVo;
  * @date	2015-10-17
  * @tip		member Controller
  * <pre>
- * -------- 수정이력 ----------
+ * -------- 수정이력 --------------
  * 수정자	:	강정권
  * 수정일자	:	2015-10-17
  * 수정내용	:	class 작성
@@ -32,10 +32,10 @@ public class AuthorityCon {
 	// 로거
 	Logger log = Logger.getLogger(this.getClass());
 	// 시스템 서비스 연결
-	@Resource(name="SystemService")
+	@Resource(name="SystemSvc")
 	private SystemSvc systemService;
 	// 권한 서비스 연결
-	@Resource(name="AuthorityService")
+	@Resource(name="AuthoritySvc")
 	private AuthoritySvc authorityService;
 	
 	/**
