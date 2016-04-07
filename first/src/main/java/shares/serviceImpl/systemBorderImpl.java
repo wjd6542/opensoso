@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import shares.dao.AbstractDAO;
-import shares.service.systemBorderSvc;
+import shares.service.SystemBorderSvc;
 import shares.vo.SystemBorderVo;
 
 /**
@@ -26,8 +26,8 @@ import shares.vo.SystemBorderVo;
  * </pre>
  *
  */
-@Service("systemBorderSvc")
-public class systemBorderImpl implements systemBorderSvc{
+@Service("SystemBorderSvc")
+public class SystemBorderImpl implements SystemBorderSvc{
 	// ·Î±×
 	Logger log = Logger.getLogger(this.getClass());
 	

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import shares.service.SystemSvc;
 import shares.service.UserSvc;
-import shares.service.systemBorderSvc;
+import shares.service.SystemBorderSvc;
 import shares.util.Function;
 import shares.util.Paging;
 import shares.var.Var;
@@ -51,8 +51,8 @@ public class ManagerCon {
 	private UserSvc userSvc;
 	
 	// 게시판 관리 서비스 연결
-	@Resource(name="systemBorderSvc")
-	private systemBorderSvc borderSvc;
+	@Resource(name="SystemBorderSvc")
+	private SystemBorderSvc borderSvc;
 	
 	
 	/**
@@ -70,7 +70,6 @@ public class ManagerCon {
 		@RequestParam(value="pageSize", defaultValue = "10") int pageSize,
 		ModelAndView mv) throws Exception
 	{
-		
 		// 페이징 처리
 		int totalcnt = userSvc.userTotalcnt(Var.userTotalcnt, paramMap);
 		paramMap = paging.setting(pageNo, pageSize, totalcnt, paramMap);
@@ -96,7 +95,7 @@ public class ManagerCon {
 		mv.addObject("pageSize", pageSize);
 		mv.addObject("paging", paging);
 		mv.addObject("userList", userList);
-		mv.setViewName("/manager/userManager");
+		mv.setViewName("/admin/userManager");
 		return mv;
 	}
 	
@@ -112,52 +111,6 @@ public class ManagerCon {
 		ModelAndView mv = new ModelAndView("jsonView");
 		UserVo userVo = userSvc.userData(Var.selectUserData, paramMap);
 		mv.addObject("userVo", userVo);
-		return mv;
-	}
-	
-	
-	/**
-	 * 설명 : 고객정보 수정
-	 * @param paramMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/userUpdate.do")
-	public ModelAndView userUpdate(@RequestParam HashMap<String,String> paramMap) throws Exception
-	{
-		ModelAndView mv = new ModelAndView("jsonView");
-		try{
-			userSvc.userData(Var.updateUser, paramMap);
-			mv.addObject("code", "SUCC");
-			mv.addObject("msg", "고객정보 수정에 성공하였습니다.");
-		}catch(Exception e){
-			e.printStackTrace();
-			mv.addObject("code", "FAIL");
-			mv.addObject("msg", "고객정보 수정에 실패하였습니다.");
-		}
-		return mv;
-	}
-	
-	
-	/**
-	 * 설명 : 고객정보 수정
-	 * @param paramMap
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/userDelete.do")
-	public ModelAndView userDelete(@RequestParam HashMap<String,String> paramMap) throws Exception
-	{
-		ModelAndView mv = new ModelAndView("jsonView");
-		try{
-			userSvc.userData(Var.deleteUser, paramMap);
-			mv.addObject("code", "SUCC");
-			mv.addObject("msg", "고객정보 가 삭제 되었습니다.");
-		}catch(Exception e){
-			e.printStackTrace();
-			mv.addObject("code", "FAIL");
-			mv.addObject("msg", "고객정보 삭제에 실패하였습니다.");
-		}
 		return mv;
 	}
 	
@@ -191,7 +144,7 @@ public class ManagerCon {
 		mv.addObject("rippleUser",  Function.sysOption(rippleUser, ""));
 		mv.addObject("authority",  Function.sysOption(authority, ""));
 		mv.addObject("borderList", borderList);
-		mv.setViewName("/manager/borderManager");
+		mv.setViewName("/admin/borderManager");
 		return mv;
 	}
 	
@@ -284,20 +237,5 @@ public class ManagerCon {
 		return mv;
 	}
 	
-	
-	/**
-	 * 설명 : 접근관리 화면
-	 * @param paramMap
-	 * @param mv
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/accessManager.do")
-	public ModelAndView accessManager(@RequestParam HashMap<String,Object> paramMap, ModelAndView mv) throws Exception
-	{
-		mv.setViewName("/manager/accessManager");
-		return mv;
-	}
 	
 }

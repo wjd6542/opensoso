@@ -20,7 +20,7 @@
 	
 	
 	<!-- 코드 중복확인 -->
-	<select id="codeCheck" parameterType="string" resultType="string">
+	<select id="codeCheck" parameterType="shares.vo.SystemVo" resultType="string">
 		select
 			code
 		from

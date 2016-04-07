@@ -1,24 +1,14 @@
 /**
- * 설명	: index 스크립트
+ * 설명	: index, login 스크립트
  * 작성자	: 강정권
  * 작설일자	: 2016-01-21
  */
 
 
-// view
-$(".view").on("click", function(){
-	var url = "/borderView.do";
-	var borderNo = $(this).attr("dir");
-	var borderType = $(this).attr("contextmenu");
-	$("#borderType").val(borderType);
-	$("#borderNo").val(borderNo);
-	$("#form").attr("action", url);
-	$("#form").submit();
-});
-
-// 롤링
+// 메인이미지 롤링
 $(document).ready(function ()
 {
+	// 롤링 소스
 	var rollingTime = 2500;		// 롤링시간
 	var effectTime = 1500;		// 실행시간
 	var $rollingImg = $(".mains > div");
@@ -37,4 +27,16 @@ $(document).ready(function ()
 		$visbleImg.hide();
 		$nextImg.fadeIn(effectTime);
 	}
+});
+
+
+//게시판 이동
+$(".view").on("click", function(){
+	var url = "/borderView.do";
+	var borderNo = $(this).attr("dir");
+	var borderType = $(this).attr("contextmenu");
+	$("#borderType").val(borderType);
+	$("#borderNo").val(borderNo);
+	$("#form").attr("action", url);
+	$("#form").submit();
 });

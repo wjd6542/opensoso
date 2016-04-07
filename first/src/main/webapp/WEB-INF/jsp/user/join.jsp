@@ -2,15 +2,14 @@
 /**
  * 
  * @author	강정권
- * @date	2015-10-20
+ * @date	2016-03-02
  * @tip		회원가입 화면
  * <pre>
- * -------- 수정이력 ----------
+ * -------- 수정이력 --------------
  * 수정자	:	강정권
- * 수정일자	:	2015-10-20
+ * 수정일자	:	2016-03-02
  * 수정내용	:	페이지수정
  * ----------------------------
- * </pre>
  */
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -24,8 +23,11 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<!-- 서브메뉴 -->
-			<jsp:include page="/include/sideMemu.jsp"/>
+			<!-- 사이드 메뉴 -->
+			<div class="leftSideMemu">
+				<jsp:include page="/include/sideMemu.jsp"/>
+			</div>
+			
 			
 			<form id="form" name="form"  method="post">
 			<input type="hidden" id="lat" name="lat">
@@ -50,7 +52,7 @@
 											<input type="text" class="form-control input-sm" id="id" required="required">
 										</div>
 										<div class="hidden-xs col-sm-1">
-											<span class="btn btn-default">
+											<span class="idCheck btn btn-default">
 												중복검사
 											</span>
 										</div>
@@ -143,13 +145,8 @@
 										<div class="col-xs-12 col-sm-4">
 											<label class="" for="email">Email</label>
 										</div>
-										<div class="col-xs-12 col-sm-4">
+										<div class="col-xs-12 col-sm-8">
 											<input type="email" class="form-control input-sm" id="email">
-										</div>
-										<div class="col-xs-12 col-sm-4">
-											<select class="form-control input-sm" id="emails">
-												<option value="">직접입력</option>
-											</select>
 										</div>
 									</td>
 								</tr>
@@ -215,6 +212,8 @@
 					</div>
 				</div>
 			</form>
+			
+			
 		</div>
 	</div>
 </body>

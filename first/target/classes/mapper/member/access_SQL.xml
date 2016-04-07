@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="access">
+	
+	<!-- 접근관리 리스트 -->
+	<select id="list" parameterType="hashmap" resultType="shares.vo.AccessVo">
+		select
+			*
+		from
+			access
+		where
+			status = 'Y'
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
+		</if>
+		order by no desc
+		<if test="startNo != '' and rows != ''">
+			limit ${startNo}, ${rows}
+		</if>
+	</select>
+	
+	<!-- 접근관리 전체 카운트 -->
+	<select id="totalCnt" parameterType="hashmap" resultType="int">
+		select 
+			count(*) as totalcnt
+		from 
+			access
+		where 
+			status = 'Y'
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
+		</if>
+	</select>
+	
+	
+	<!-- 접근관리 삽입 -->
+	<insert id="insert" parameterType="hashmap" useGeneratedKeys="true">
+		insert into access
+		(
+			path,
+			type,
+			ip,
+			name,
+			saveDate,
+			saveTime,
+			status
+		)
+		values
+		(
+			#{path},
+			#{type},
+			#{ip},
+			#{name},
+			curdate(),
+			curtime(),
+			'Y'
+		)
+	</insert>
+	
+	
+	<!-- 접근관리 삭제 -->
+	<delete id="delete" parameterType="hashmap">
+		delete from access
+		where no = #{no}
+	</delete>
+	
+</mapper>

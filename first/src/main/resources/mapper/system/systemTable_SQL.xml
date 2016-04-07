@@ -10,7 +10,7 @@
 	 -->
 	<select id="tableList" resultType="shares.vo.SystemTableVo">
 		select
-			distinct b.table_name, b.table_comment, a.column_name, a.column_comment
+			distinct b.table_name, b.table_comment, a.column_name, a.column_comment, a.column_type
 		from
 			information_schema.columns a , information_schema.tables b
 		where

@@ -1,4 +1,5 @@
 package shares.controller;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import shares.service.BorderSvc;
 import shares.service.FileSvc;
 import shares.service.SystemSvc;
-import shares.service.systemBorderSvc;
+import shares.service.UserSvc;
+import shares.service.SystemBorderSvc;
+import shares.util.BadMessage;
 import shares.util.Function;
 import shares.util.Paging;
 import shares.var.Var;
@@ -23,6 +26,7 @@ import shares.vo.BorderVo;
 import shares.vo.FileVo;
 import shares.vo.SystemBorderVo;
 import shares.vo.SystemVo;
+import shares.vo.UserVo;
 
 /**
  * 
@@ -44,8 +48,12 @@ public class BorderCon {
 	Logger log = Logger.getLogger(this.getClass());
 	
 	// 게시판 관리 서비스 연결
-	@Resource(name="systemBorderSvc")
-	private systemBorderSvc systemBorderSvc;
+	@Resource(name="SystemBorderSvc")
+	private SystemBorderSvc systemBorderSvc;
+	
+	// 유저 서비스 연결
+	@Resource(name="UserSvc")
+	private UserSvc userSvc;
 	
 	// 게시판 서비스 연결
 	@Resource(name="BorderSvc")
@@ -53,7 +61,7 @@ public class BorderCon {
 	
 	// 시스템 서비스 연결
 	@Resource(name="SystemSvc")
-	private SystemSvc systemService;
+	private SystemSvc systemSvc;
 	
 	// 파일 서비스 연결
 	@Resource(name="FileSvc")
@@ -74,6 +82,7 @@ public class BorderCon {
 			@RequestParam(value="pageNo", defaultValue = "0") int pageNo,
 			@RequestParam(value="pageSize", defaultValue = "10") int pageSize,
 			@RequestParam(value="totalcnt", defaultValue = "0") int totalcnt,
+			@RequestParam(value="order", defaultValue = "bno") String order,
 			ModelAndView mv) throws Exception{
 		
 		/*================ data setting str =================
@@ -84,16 +93,14 @@ public class BorderCon {
 		 ================= data setting end =================*/
 		// 페이징 처리
 		String cnt = borderSvc.selectCnt(Var.borderTotalCnt, paramMap);
-		if(cnt == null){
-			cnt = "0";
-		}
+		if(cnt == null) cnt = "0";
 		totalcnt = Integer.parseInt(cnt);
 		paramMap = paging.setting(pageNo, pageSize, totalcnt, paramMap);
 		SystemBorderVo borderVo = systemBorderSvc.borderData(Var.sysBorderData, paramMap);
 		List<BorderVo> borderList = borderSvc.borderList(Var.borderList, paramMap);
-		List<SystemVo> typeMap = systemService.list(Var.sysValueCodeList, "borderType");
+		List<SystemVo> typeMap = systemSvc.list(Var.sysValueCodeList, "borderType");
 		String typeTitle = Function.sysMapping(typeMap, paramMap.get("borderType"));
-		
+		List<SystemVo> serchMap = systemSvc.list(Var.sysValueCodeList, "borderSerch");
 		
 		/*================ View data setting str =================
 		 * typeTitle		: 계시판 구분 title
@@ -101,13 +108,15 @@ public class BorderCon {
 		 * borderList		: 게시판 리스트
 		 * searchString		: 검색 입력
 		 ================= View data setting end =================*/
+		mv.addObject("search",  Function.sysOption(serchMap, paramMap.get("search")));
+		mv.addObject("searchString",  paramMap.get("searchString"));
+		mv.addObject("order", order);
 		mv.addObject("typeTitle", typeTitle);
 		mv.addObject("borderConf", borderVo);
 		mv.addObject("borderList", borderList);
 		mv.addObject("pageNo", pageNo);
 		mv.addObject("pageSize", pageSize);
 		mv.addObject("paging", paging);
-		mv.addObject("searchString",  paramMap.get("searchString"));
 		mv.addObject("borderType",  paramMap.get("borderType"));
 		mv.setViewName("/border/list");
 		return mv;
@@ -124,10 +133,15 @@ public class BorderCon {
 	@RequestMapping(value="/borderView.do")
 	public ModelAndView borderView(@RequestParam HashMap<String, String> paramMap, ModelAndView mv) throws Exception{
 		String borderType = paramMap.get("borderType");
+		SystemBorderVo borderVo = systemBorderSvc.borderData(Var.sysBorderData, paramMap);
 		borderSvc.borderUpdate(Var.borderHitCntUp, paramMap);
 		BorderVo border = borderSvc.borderData(Var.borderData, paramMap);
-		List<FileVo> fileList = fileSvc.fileList(Var.fileList, paramMap);
+		paramMap.put("userNo", border.getUserNo());
+		UserVo userInfo = userSvc.userData(Var.selectUserData, paramMap);
+		List<FileVo> fileList = fileSvc.fileList(Var.fileDataList, paramMap);
 		
+		mv.addObject("borderConf", borderVo);
+		mv.addObject("userInfo", userInfo);
 		mv.addObject("border", border);
 		mv.addObject("fileList", fileList);
 		mv.addObject("borderType", borderType);
@@ -147,14 +161,11 @@ public class BorderCon {
 	public ModelAndView borderWiter(@RequestParam HashMap<String, String> paramMap, ModelAndView mv) throws Exception{
 		String actionType = "", btnNm = "", interest = "";
 		SystemBorderVo borderVo = systemBorderSvc.borderData(Var.sysBorderData, paramMap);
-		List<SystemVo> interestMap = systemService.list(Var.sysValueCodeList, "borderWriterType");
+		List<SystemVo> interestMap = systemSvc.list(Var.sysValueCodeList, "borderWriterType");
 		String borderNo = paramMap.get("borderNo");
 		String borderType = paramMap.get("borderType");
 		BorderVo border = null;
 		List<FileVo> fileList = null;
-		
-		
-		System.out.println(paramMap);
 		
 		if(borderNo == null || borderNo == ""){
 			interest = Function.sysOption(interestMap, "");
@@ -192,20 +203,30 @@ public class BorderCon {
 	public ModelAndView borderView(@RequestParam HashMap<String, String> paramMap, 
 			MultipartHttpServletRequest multiRequest) throws Exception{
 		ModelAndView mv = new ModelAndView("jsonView");
-		String actionType = paramMap.get("actionType");
 		List<MultipartFile> mf = multiRequest.getFiles("file");
+		String actionType = paramMap.get("actionType");
+		String userNo = paramMap.get("userNo");
+		String memo = paramMap.get("memo");
 		String msg = "";
+		String borderNo = "";
+		
+		// 욕설 방지
+		paramMap.put("memo", BadMessage.BadMsgRemove(memo));
 		
 		try{
 			// 게시판 action
 			if(actionType.equals("insert")){
 				borderSvc.borderInsert(Var.borderInsert, paramMap);
+				borderNo = borderSvc.maxNo(Var.borderMaxNo);
 				msg = "등록";
 			}else if(actionType.equals("update")){
 				borderSvc.borderUpdate(Var.borderUpdate, paramMap);
+				borderNo = paramMap.get("borderNo");
 				msg = "수정";
 			}else if(actionType.equals("delete")){
 				borderSvc.borderDelete(Var.borderDelete, paramMap);
+				File file = new File(Var.filePath + paramMap.get("filename"));
+				file.delete();
 				msg = "삭제";
 			}
 			
@@ -214,8 +235,8 @@ public class BorderCon {
 				
 			}else{
 				HashMap<String, Object> map = new HashMap<String, Object>();
-				String borderNo = borderSvc.maxNo(Var.borderMaxNo);
 				map.put("borderNo", borderNo);
+				map.put("userNo", userNo);
 				fileSvc.fileInsert(Var.fileInsert, map, multiRequest);
 			}
 			

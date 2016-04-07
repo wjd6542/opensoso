@@ -5,9 +5,26 @@
  */
 
 
+$(document).ready(function ()
+{
+	// 페이지 이동
+	$.util.pageMove();
+	
+	// 정렬 변경
+	$.util.orderSet();
+	
+	// 정렬 색상 설정
+	$.util.orderColorSet("order");
+	
+	// 엔터 검색
+	$.util.enterSet("searchString","search");
+	
+	// 권한처리 화면 출력
+	$.util.borderAuthorityCheck("borderAuthority","userAuthority", "userbtn");
+	
+});
 
-// 페이지 이동
-$.util.pageMove();
+
 
 // 작성페이지
 $(".insert").on("click",function(){

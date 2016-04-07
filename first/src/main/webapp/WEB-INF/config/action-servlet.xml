@@ -8,12 +8,28 @@
 	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
 	   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	
-	<!-- 페이지 로거 인터셉터 설정 -->
+	<!-- 기본 페키지 설정 -->
 	<context:component-scan base-package="shares"></context:component-scan>
+	
+	<!-- 인터셉터 설정 -->
 	<mvc:interceptors>
+		<!-- 페이지 접근 로그  -->
 		<mvc:interceptor>
-			<mvc:mapping path="/**"/>
+			<mvc:mapping path="/**/**"/>
 			<bean id="loggerInterceptor" class="shares.interceptor.LoggerInterceptor"></bean>
+		</mvc:interceptor>
+		
+		<!-- 비로그인 접근 확인 -->
+		<mvc:interceptor> 
+			<mvc:mapping path="/myPage.do"/>
+			<mvc:mapping path="/borderWrite.do"/>
+			<bean class="shares.interceptor.UserInterCeptor"/>
+		</mvc:interceptor>
+		
+		<!-- 관리지 접근 확인 페이지 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**Manager.do"/>
+			<bean class="shares.interceptor.AdminInterCeptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
@@ -24,15 +40,18 @@
 		<property name="contentType" value="application/json;charset=UTF-8"></property>
 	</bean>
 	
+	<!-- 뷰 이름과 View 객체간의 매핑 정보를 저장하기 위해 자원 파일 -->
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0"/>
+	
+	<!-- ajax view JSON rendering -->
 	<bean name="lenient" class="net.sf.json.util.CycleDetectionStrategy$LenientCycleDetectionStrategy"/>
 	
 	<!-- JSTL 설정 -->
-	<bean
-		class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1" 
 		p:viewClass="org.springframework.web.servlet.view.JstlView" 
 		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp">
 	</bean>
+	
 </beans>
 
 

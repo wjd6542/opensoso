@@ -24,7 +24,7 @@
 			systemBorder
 		where
 			status = 'Y'
-			<if test="no != '' and no !=null">
+			<if test="no != '' and no != null and type == null">
 				and no = #{no}
 			</if>
 			<if test="type != '' and type !=null">

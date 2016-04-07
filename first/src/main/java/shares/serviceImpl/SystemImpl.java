@@ -58,8 +58,8 @@ public class SystemImpl implements SystemSvc{
 
 	// 환경설정 코드 중복확인
 	@Override
-	public String check(String sqlId, String value) throws Exception {
-		return (String) abstractDAO.selectOne(sqlId, value);
+	public String check(String sqlId, SystemVo vo) throws Exception {
+		return (String) abstractDAO.selectOne(sqlId, vo);
 	}
 	
 	// 환경설정 삽입

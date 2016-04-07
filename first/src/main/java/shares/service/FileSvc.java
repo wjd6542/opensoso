@@ -25,6 +25,8 @@ public interface FileSvc {
 	<K, V> List<FileVo> fileList(String sqlId, HashMap<K, V> map) throws Exception;
 	// 파일검색
 	FileVo fileData(String sqlId, HashMap<String, Object> map) throws Exception;
+	// 파일 카운트
+	int fileCnt(String sqlId, HashMap<String, String> paramMap) throws Exception;
 	// 파일 삽입
 	void fileInsert(String sqlId, HashMap<String, Object> map, MultipartHttpServletRequest multiRequest) throws Exception;
 	// 파일  삭제

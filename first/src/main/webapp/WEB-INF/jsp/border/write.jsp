@@ -2,32 +2,42 @@
 /**
  * 
  * @author	강정권
- * @date	2015-10-20
- * @tip		게시판 리스트 화면
+ * @date	2016-03-02
+ * @tip		게시판 작성 화면
  * <pre>
  * -------- 수정이력 --------------
  * 수정자	:	강정권
- * 수정일자	:	2015-10-20
+ * 수정일자	:	2016-03-02
  * 수정내용	:	페이지수정
  * ----------------------------
- * </pre>
  */
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:useBean id="user" class="shares.vo.UserVo" scope="session" />
+<c:set var="userNo" value="${user.no}"/>
+
 <!-- 상단 -->
 <jsp:include page="/include/top.jsp"/>
 
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<!-- 서브메뉴 -->
-			<jsp:include page="/include/sideMemu.jsp"/>
+			<!-- 사이드 메뉴 -->
+			<div class="leftSideMemu">
+				<jsp:include page="/include/sideMemu.jsp"/>
+			</div>
+			
+			
 			<form id="form" name="form" method="post" action="">
+			<input type="hidden" id="userNo" name="userNo" value="${userNo}">
 			<input type="hidden" id="sysNo" name="sysNo" value="${borderConf.no}">
 			<input type="hidden" id="authority" name="authority" value="${borderConf.authority}">
+			<input type="hidden" id="rippleUser" name="rippleUser" value="${borderConf.rippleUser}">
+			<input type="hidden" id="fileUser" name="fileUser" value="${borderConf.fileUser}">
+			
 			<input type="hidden" id="borderType" name="borderType" value="${borderType}">
 			<input type="hidden" id="actionType" name=actionType value="${actionType}">
 			<input type="hidden" id="borderNo" name="borderNo" value="${border.no}">
@@ -40,7 +50,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<div class="panel-title">
-										게시글 작성
+										게시글 작성 ${borderConf.no}
 									</div>
 								</div>
 								<div class="addlist list-group">
@@ -59,15 +69,19 @@
 													<div class="padding-top-10"></div>
 												</div>
 												<span class="btn-group">
+													<c:if test="${borderConf.fileUser == 'Y'}">
 													<span class="fileAdd btn btn-info">
 														<i class="fa fa-floppy-o"></i> 파일추가
 													</span>
+													</c:if>
 													<span class="${actionType} btn btn-primary" contextmenu="${actionType}">
 														<i class="fa fa-check-circle-o"></i> 글 ${btnNm}
 													</span>
+													<c:if test="${actionType == 'update'}">
 													<span class="delete btn btn-danger" contextmenu="delete">
 														<i class="fa fa-check-circle-o"></i> 글 삭제
 													</span>
+													</c:if>
 												</span>
 											</div>
 											
@@ -100,8 +114,8 @@
 				<!-- content end -->
 				
 				
-				<!-- 권한 모달영역 str -->
-				<div class="modal fade" id="aModal">
+				<!-- 코드 추가 모달영역 str -->
+				<div class="modal fade" id="infoModal">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -127,10 +141,11 @@
 						</div>
 					</div>
 				</div>
-				<!-- 권한 모달영역 end -->
+				<!-- 코드 추가  모달영역 end -->
 				
 				
 			</form>
+			
 		</div>
 	</div>
 </body>

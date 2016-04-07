@@ -1,11 +1,15 @@
 package shares.serviceImpl;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
 import shares.dao.AbstractDAO;
 import shares.service.BranchSvc;
+import shares.vo.BranchVo;
 
 /**
  * 
@@ -35,30 +39,38 @@ public class BranchImpl implements BranchSvc{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<HashMap<String, String>> selectBranchList(String sqlId, HashMap<String, String> map) throws Exception {
-		return (ArrayList<HashMap<String, String>>)abstractDAO.selectList(sqlId, map);
+	public List<BranchVo> list(String sqlId, HashMap<String, String> map) throws Exception {
+		return (List<BranchVo>)abstractDAO.selectList(sqlId, map);
 	}
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public HashMap<String, String> branchSelect(String sqlId, String value) throws Exception {
-		return (HashMap<String, String>)abstractDAO.selectList(sqlId, value);
+	public BranchVo data(String sqlId, HashMap<String,String> map) throws Exception {
+		return (BranchVo)abstractDAO.selectOne(sqlId, map);
 	}
+	
+	@Override
+	public String dataNum(String sqlId, HashMap<String, String> map) throws Exception {
+		
+		return (String) abstractDAO.selectOne(sqlId, map);
+	}
+	
 	@Override
 	public String checkCode(String sqlId, String value) throws Exception {
 		return  "";
 	}
+	
 	@Override
-	public void branchInsert(String sqlId, HashMap<String, String> map) throws Exception {
+	public void insert(String sqlId, HashMap<String, String> map) throws Exception {
 		abstractDAO.insert(sqlId, map);
 	}
+	
 	@Override
-	public void branchUpdate(String sqlId, HashMap<String, String> map) throws Exception {
+	public void update(String sqlId, HashMap<String, String> map) throws Exception {
 		abstractDAO.update(sqlId, map);
 	}
+	
 	@Override
-	public void branchDelete(String sqlId, HashMap<String, String> map) throws Exception {
+	public void delete(String sqlId, HashMap<String, String> map) throws Exception {
 		abstractDAO.delete(sqlId, map);
 	}
-	
-	
 }

@@ -1,5 +1,7 @@
 package shares.vo;
 
+import org.springframework.stereotype.Service;
+
 /**
  * @author	rockys
  * @tip		설명 : 사용자 value Object 이다 
@@ -9,11 +11,14 @@ package shares.vo;
  *			4. vo 는 반드시 DB 스키마, view input in,name 과 일치 한다
  *			5. 컬럼 추가시 반드시 주석 작성한다
  */
+
+@Service
 public class UserVo extends CommonVo {
 	private String no = "";				// 고객번호
 	private String id = "";				// 아이디
 	private String password = "";		// 비밀번호
 	private String name = "";			// 이름
+	private String nickName = "";		// 별명
 	private String email = "";			// 이메일
 	private String phon = "";			// 휴대폰
 	private String gender = "";			// 성별
@@ -23,7 +28,9 @@ public class UserVo extends CommonVo {
 	private String authority = "";		// 권한
 	private String status = "";			// 저장상태
 	private String imgName = "";		// 저장 이미지 명
-	private String rerelImg = "";		// 원본이미지 명
+	private String oName = "";			// 원본이미지 명
+	private String citation = "";		// 비밀번호 인증번호
+	private String noteStatus = "";		// 쪽지 여부
 	
 	/**
 	 * @return the no
@@ -72,6 +79,18 @@ public class UserVo extends CommonVo {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	/**
+	 * @return the nickName
+	 */
+	public String getNickName() {
+		return nickName;
+	}
+	/**
+	 * @param nickName the nickName to set
+	 */
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 	/**
 	 * @return the email
@@ -182,15 +201,40 @@ public class UserVo extends CommonVo {
 		this.imgName = imgName;
 	}
 	/**
-	 * @return the rerelImg
+	 * @return the oName
 	 */
-	public String getRerelImg() {
-		return rerelImg;
+	public String getoName() {
+		return oName;
 	}
 	/**
-	 * @param rerelImg the rerelImg to set
+	 * @param oName the oName to set
 	 */
-	public void setRerelImg(String rerelImg) {
-		this.rerelImg = rerelImg;
+	public void setoName(String oName) {
+		this.oName = oName;
+	}
+	/**
+	 * @return the citation
+	 */
+	public String getCitation() {
+		return citation;
+	}
+	/**
+	 * @param citation the citation to set
+	 */
+	public void setCitation(String citation) {
+		this.citation = citation;
+	}
+	
+	/**
+	 * @return the noteStatus
+	 */
+	public String getNoteStatus() {
+		return noteStatus;
+	}
+	/**
+	 * @param noteStatus the noteStatus to set
+	 */
+	public void setNoteStatus(String noteStatus) {
+		this.noteStatus = noteStatus;
 	}
 }

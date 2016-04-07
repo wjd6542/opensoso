@@ -23,8 +23,10 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<!-- 서브메뉴 -->
-			<jsp:include page="/include/sideMemu.jsp"/>
+			<!-- 사이드 메뉴 -->
+			<div class="leftSideMemu">
+				<jsp:include page="/include/sideMemu.jsp"/>
+			</div>
 			
 			<form id="form" name="form" method="post" action="">
 			<input type="hidden" id="borderType" name="borderType" value="">
@@ -69,7 +71,7 @@
 								</table>
 							</div>
 							<div class="col-xs-12 col-sm-6 placeholder">
-								<h4 class="sub-header bold">Q&A 게시판</h4>
+								<h4 class="sub-header bold">Q&amp;A 게시판</h4>
 								<table class="table table-bordered">
 								<c:forEach items="${borderList2}" var="list">
 								<tr>
@@ -143,8 +145,10 @@
 						
 					</div>
 				</div>
-			
+				
 			</form>
+			
+			
 		</div>
 	</div>
 </body>

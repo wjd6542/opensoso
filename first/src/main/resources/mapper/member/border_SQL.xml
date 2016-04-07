@@ -12,14 +12,41 @@
 			border
 		where
 			status = 'Y'
-		<if test="borderType != '' and borderType !=null">
+		
+		<!-- 개시판 구분 -->
+		<if test="borderType != '' ">
 			and borderType = #{borderType}
 		</if>
-		<if test="search != '' and searchString !=null">
-			and ${search} = #{searchString}
+		
+		<!-- 검색 -->
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
-		order by no desc
-		limit ${startNo} , ${endNo}
+		
+		<!-- 정렬-->
+		<choose>
+			<when test="order eq null or order eq 'bno' ">
+			order by no desc
+			</when>
+			<otherwise>
+			order by ${order} desc
+			</otherwise>
+		</choose>
+		
+		<!-- 페이징 -->
+		<if test="startNo != '' and rows != null">
+			limit ${startNo}, ${rows}
+		</if>
+	</select>
+	
+	
+	<!-- 유저 작성 정보 리스트 -->
+	<select id="userList" parameterType="hashmap" resultType="shares.vo.BorderVo">
+		select b.*
+		from
+			border b, user u
+		where 
+			u.no = b.userNo and u.status = 'Y' and u.id = #{id}
 	</select>
 	
 	
@@ -67,8 +94,8 @@
 		<if test="borderType != '' and borderType !=null">
 			and borderType = #{borderType}
 		</if>
-		<if test="search != '' and searchString !=null">
-			and ${search} = #{searchString}
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
 	</select>
 	
@@ -76,7 +103,7 @@
 	<!-- 최대 no 검색 -->
 	<select id="totalCnt" parameterType="hashmap" resultType="String">
 		select 
-			count(no) as borderNo
+			count(*) as borderNo
 		from 
 			border
 		where 
@@ -84,8 +111,8 @@
 		<if test="borderType != '' and borderType !=null">
 			and borderType = #{borderType}
 		</if>
-		<if test="search != '' and searchString !=null">
-			and ${search} = #{searchString}
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
 	</select>
 	

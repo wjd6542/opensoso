@@ -10,13 +10,42 @@
 		from
 			file
 		where status = 'Y'
-		<if test="userNo != '' and userNo !=null">
-			and userNo = #{userNo}
-		</if>
-		<if test="borderNo != '' and borderNo !=null">
-			and borderNo = #{borderNo}
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
 		order by no desc
+		<if test="startNo != '' and rows !=null">
+			limit ${startNo} , ${rows}
+		</if>
+	</select>
+	
+	
+	<!-- data List -->
+	<select id="dataList" parameterType="hashmap" resultType="shares.vo.FileVo">
+		select
+			*
+		from
+			file
+		where status = 'Y'
+		<if test="userNo != '' and userNo != null">
+			and userNo = #{userNo}
+		</if>
+		<if test="borderNo != '' and borderNo != null">
+			and borderNo = #{borderNo}
+		</if>
+	</select>
+	
+	<!-- 파일 전체 카운트 -->
+	<select id="totalCnt" parameterType="hashmap" resultType="int">
+		select 
+			count(*) as totalcnt
+		from 
+			file
+		where 
+			status='Y'
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
+		</if>
 	</select>
 	
 	<!-- 파일 검색 -->
@@ -25,7 +54,8 @@
 			*
 		from
 			file
-		where no = #{no}
+		where 
+			no = #{no}
 	</select>
 	
 	<!-- 파일 삽입 -->

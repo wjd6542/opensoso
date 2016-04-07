@@ -17,8 +17,12 @@ package shares.var;
  */
 public class Var {
 	
-	/* 파일 경로 */
-	public static final String filepath = "D:/rocky/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Shares/img/data/";
+	/*============================================
+	 * 설명 : 성공여부 출력 코드
+	 * filepath			: 파일업로드 경로
+	 * imgPath			: 고객 이미지 경로
+	 =============================================*/
+	public static final String filePath = "D:/rocky/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/Shares/img/data/";
 	
 	
 	/*============================================
@@ -40,6 +44,8 @@ public class Var {
 	 * deleteUser		: 유저 삭제
 	 * userTotalcnt		: 유저 전체수
 	 * userIdCheck		: 유저 ID 중복확인
+	 * userPwChang		: 유저 비밀번호 변경
+	 * userLeave		: 유저 탈퇴
 	 =============================================*/
 	public static final String selectUserList = "user.list";
 	public static final String selectUser = "user.selectUser";
@@ -49,7 +55,8 @@ public class Var {
 	public static final String deleteUser = "user.deleteUser";
 	public static final String userTotalcnt = "user.totalcnt";
 	public static final String userIdCheck = "user.idCheck";
-	
+	public static final String userPwChang = "user.pwChang";
+	public static final String userLeave = "user.leave";
 	
 	
 	/*============================================
@@ -123,6 +130,7 @@ public class Var {
 	 * borderStatusChase: 게시판 상태 변경
 	 =============================================*/
 	public static final String borderList = "border.list";
+	public static final String borderUserList = "border.userList";
 	public static final String borderMainList = "border.mainList";
 	public static final String borderData = "border.data";
 	public static final String borderMaxNo = "border.maxNo";
@@ -141,12 +149,78 @@ public class Var {
 	/*============================================
 	 * 설명 : 파일  SlqID
 	 * fileList			: 파일 리스트
+	 * fileDataList		: 데이터 리스트
+	 * fileTotalCnt		: 파일 전체 카운트
 	 * fileData			: 파일 데이터
 	 * fileInsert		: 파일 삽입
 	 * fileDelete		: 파일 삭제
 	 =============================================*/
 	public static final String fileList = "file.list";
+	public static final String fileDataList = "file.dataList";
+	public static final String fileTotalCnt = "file.totalCnt";
 	public static final String fileData = "file.data";
 	public static final String fileInsert = "file.insert";
 	public static final String fileDelete = "file.delete";
+	
+	
+	/*============================================
+	 * 설명 : 접근관리  SlqID
+	 * accessList		: 접근관리 리스트
+	 * accessTotalCnt	: 접근관리 전체카운트
+	 * accessInsert		: 접근관리 삽입
+	 * accessDelete		: 접근관리 삭제
+	 =============================================*/
+	public static final String accessList = "access.list";
+	public static final String accessTotalCnt = "access.totalCnt";
+	public static final String accessInsert = "access.insert";
+	public static final String accessDelete = "access.delete";
+	
+	
+	/*============================================
+	 * 설명 : 부서관리  SlqID
+	 * brachList		: 부서관리 리스트
+	 * branchData		: 부서정보
+	 * branchNum		: 부서채번
+	 * branchInsert		: 부서사입
+	 * branchUpdate		: 부서수정
+	 * branchDelete		: 부서삭제
+	 =============================================*/
+	public static final String branchList = "branch.list";
+	public static final String branchData = "branch.data";
+	public static final String branchNum = "branch.num";
+	public static final String branchInsert = "branch.insert";
+	public static final String branchUpdate = "branch.update";
+	public static final String branchDelete = "branch.delete";
+	
+	
+	/*============================================
+	 * 설명 : 이메일 관리  SlqID
+	 * emailList		: 이메일 관리 리스트
+	 * emailData		: 이메일 정보
+	 * emailTotalCnt	: 이메일 관리 전체카운트
+	 * emailInsert		: 이메일 관리 삽입
+	 * emailDelete		: 이메일 관리 삭제
+	 =============================================*/
+	public static final String emailList = "email.list";
+	public static final String emailData = "email.data";
+	public static final String emailTotalCnt = "email.totalCnt";
+	public static final String emailInsert = "email.insert";
+	public static final String emailDelete = "email.delete";
+	
+	
+	/*============================================
+	 * 설명 : 쪽지 SlqID
+	 * noteList			: 쪽지 리스트
+	 * noteData			: 쪽지 정보
+	 * noteTotalCnt		: 쪽지 전체카운트
+	 * noteInsert		: 쪽지 삽입
+	 * noteUpdate		: 쪽지 수정
+	 * noteDelete		: 쪽지 삭제
+	 =============================================*/
+	public static final String noteList = "note.list";
+	public static final String noteData = "note.data";
+	public static final String noteTotalCnt = "note.totalCnt";
+	public static final String noteInsert = "note.insert";
+	public static final String noteUpdate = "note.update";
+	public static final String noteDelete = "note.delete";
 }

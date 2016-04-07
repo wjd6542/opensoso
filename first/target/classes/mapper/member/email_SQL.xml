@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="email">
+	
+	
+	<!-- 이메일 리스트 -->
+	<select id="list" parameterType="hashmap" resultType="shares.vo.EmailVo">
+		select *
+		from
+			email
+		where
+			status = 'Y'
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
+		</if>
+		order by no desc
+		
+		<!-- 페이징 -->
+		<if test="startNo != '' and rows != null">
+			limit ${startNo} , ${rows}
+		</if>
+	</select>
+	
+	
+	<!-- 이메일  데이터 -->
+	<select id="data" parameterType="hashmap" resultType="shares.vo.EmailVo">
+		select *
+		from 
+			email
+		where 
+			status = 'Y' and no = #{no}
+	</select>
+	
+	<!-- 이메일 전체 카운트 -->
+	<select id="totalCnt" parameterType="hashmap" resultType="int">
+		select 
+			count(*) as totalcnt
+		from 
+			email
+		where 
+			status = 'Y'
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
+		</if>
+	</select>
+	
+	
+	<!-- 이메일 삽입 -->
+	<insert id="insert" parameterType="hashmap" useGeneratedKeys="true">
+		insert into email
+		(
+			title,
+			type,
+			userNo,
+			toAddr,
+			memo,
+			saveDate,
+			saveTime,
+			status
+		)
+		values
+		(
+			#{title},
+			#{type},
+			#{userNo},
+			#{toAddr},
+			#{memo},
+			curdate(),
+			curtime(),
+			'Y'
+		)
+	</insert>
+	
+	
+	<!-- 이메일 삭제 -->
+	<delete id="delete" parameterType="hashmap">
+		delete from email
+		where no = #{no}
+	</delete>
+	
+</mapper>

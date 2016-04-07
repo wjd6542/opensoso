@@ -11,8 +11,8 @@
 			authority
 		where
 			status = 'Y'
-		<if test="search != '' and searchString !=null">
-			and ${search} = #{searchString}
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
 		order by idx desc
 	</select>

@@ -8,7 +8,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="text-center">
-					<img class="wid-100" src="/img/404.png">
+					<img class="wid-100" src="/img/400.png">
 					<h4>문법상 오류가 발생하였습니다.</h4>
 				</div>
 			</div>

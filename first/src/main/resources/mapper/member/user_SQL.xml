@@ -3,19 +3,36 @@
 
 <mapper namespace="user">
 	
+	
 	<!--  user 검색 List -->
 	<select id="list" parameterType="hashmap" resultType="shares.vo.UserVo">
 		select
 			*
 		from
 			user
-		where status = 'U01'
-		<if test="search != '' and search !=null">
-			and ${search} = #{searchString}
+		where status = 'Y'
+		
+		<!-- 검색조건-->
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
-		order by no desc
-		limit ${startNo} , ${endNo}
+		
+		<!-- 정렬-->
+		<choose>
+			<when test="order == '' or order == null">
+			order by no desc
+			</when>
+			<otherwise>
+			order by ${order} desc
+			</otherwise>
+		</choose>
+		
+		<!-- 페이징 -->
+		<if test="startNo != '' and rows != null">
+			limit ${startNo} , ${rows}
+		</if>
 	</select>
+	
 	
 	<!--  user 검색 -->
 	<select id="data" parameterType="hashmap" resultType="shares.vo.UserVo">
@@ -23,8 +40,18 @@
 			*
 		from
 			user
-		where no = ${no}
+		where status = 'Y'
+		<if test="no != '' and no != null and userNo == null">
+			and no = ${no}
+		</if>
+		<if test="userNo != '' and userNo != null">
+			and no = ${userNo}
+		</if>
+		<if test="id != '' and id != null">
+			and id = #{id}
+		</if>
 	</select>
+	
 	
 	<!--  user 검색 -->
 	<select id="selectUser" parameterType="shares.vo.UserVo" resultType="shares.vo.UserVo">
@@ -32,11 +59,22 @@
 			*
 		from
 			user
-		where id = #{id} and password = #{password}
+		where 
+			status = 'Y'
+		<if test="id != null and password != null">
+			and id = #{id} and password = #{password}
+		</if>
+		<if test="type != '' and type == 'id' ">
+			and name = #{name} and email = #{email}
+		</if>
+		<if test="type != '' and type == 'pw' ">
+			and id = #{id} and email = #{email}
+		</if>
 	</select>
-
+	
+	
 	<!-- ID 중복확인 -->
-	<select id="idCheck" parameterType="string" resultType="hashmap">
+	<select id="idCheck" parameterType="string" resultType="string">
 		select
 			id
 		from
@@ -45,15 +83,17 @@
 			id=#{id}
 	</select>
 	
+	
 	<!-- 전체 카운트 쿼리 -->
 	<select id="totalcnt" parameterType="hashmap" resultType="int" >
 		select count(*)
 		from user
-		where status = 'U01'
-		<if test="search != '' and search !=null">
-			and ${search} = #{searchString}
+		where status = 'Y'
+		<if test="search != '' and searchString != null">
+			and ${search} like CONCAT('%', #{searchString}, '%')
 		</if>
 	</select>
+	
 	
 	<!-- 유저 삽입 -->
 	<insert id="insertUser" parameterType="hashmap" useGeneratedKeys="true">
@@ -64,6 +104,8 @@
 			name,
 			nickName,
 			email,
+			authority,
+			noteStatus,
 			status
 		)
 		values
@@ -73,36 +115,111 @@
 			#{name},
 			#{nickName},
 			#{email},
-			'U01'
+			'user',
+			'Y',
+			'Y'
 		)
 	</insert>
 	
+	
 	<!-- 유저 수정 -->
 	<update id="updateUser" parameterType="hashmap">
+		update user
+		<trim prefix="set" suffixOverrides=",">
+		<if test="id != null and id !='' ">
+			id=#{id},
+		</if>
+		<if test="password != null and password!='' ">
+			password=#{password},
+		</if>
+		<if test="name != null and name !='' ">
+			name=#{name},
+		</if>
+		<if test="email != null and email != '' ">
+			email=#{email},
+		</if>
+		<if test="phon != null and phon != ''">
+			phon=#{phon},
+		</if>
+		<if test="gender != null and gender != ''">
+			gender=#{gender},
+		</if>
+		<if test="birthday != null and birthday != ''">
+			birthday=#{birthday},
+		</if>
+		<if test="hobby != null and hobby != ''">
+			hobby=#{hobby},
+		</if>
+		<if test="forte != null and forte != ''">
+			forte=#{forte},
+		</if>
+		<if test="zipcode != null and zipcode != ''">
+			zipcode=#{zipcode},
+		</if>
+		<if test="addr11 != null and addr11 != ''">
+			addr11=#{addr11},
+		</if>
+		<if test="addr12 != null and addr12 != ''">
+			addr12=#{addr12},
+		</if>
+		<if test="authority != null and authority != ''">
+			authority=#{authority},
+		</if>
+		<if test="status != null and status != ''">
+			status=#{status},
+		</if>
+		<if test="citation != null and citation != ''">
+			citation=#{citation},
+		</if>
+		<if test="oName != null and oName != ''">
+			oName=#{oName},
+		</if>
+		<if test="imgName != null and imgName != ''">
+			imgName=#{imgName},
+		</if>
+		<if test="noteStatus != null and noteStatus != ''">
+			noteStatus=#{noteStatus},
+		</if>
+		</trim>
+		where
+			status = 'Y'
+		<if test="no != null and no != ''">
+			and no = #{no}
+		</if>
+		<if test="citation != null">
+			and citation = #{citation}
+		</if>
+	</update>
+	
+	
+	<!-- 유저 비밀번호 변경 -->
+	<update id="pwChang" parameterType="hashmap">
 		update
 			user
 		set
-			id=#{id},
-			password=#{password},
-			name=#{name},
-			email=#{email},
-			phon=#{phon},
-			gender=#{gender},
-			birthday=#{birthday},
-			hobby=#{hobby},
-			forte=#{forte},
-			zipcode=#{zipcode},
-			addr11=#{addr11},
-			addr12=#{addr12},
-			authority=#{authority},
-			status=#{status}
-		where
-			no = #{no}
+			password=#{password}
+		where 
+			status = 'Y' 
+			<if test="no != null">
+			and no = #{no}
+			</if>
+			<if test="citation != null">
+			and citation=#{citation}
+			</if>
+	</update>
+	
+	
+	<!-- 탈퇴처리 -->
+	<update id="leave" parameterType="hashmap">
+		update
+			user
+		set
+			status = 'N'
+		where no = #{no}
 	</update>
 	
 	<!-- 유저 삭제 -->
 	<delete id="deleteUser" parameterType="hashmap">
-		delete from user
-		where no = #{no}
+		delete from user where no = #{no}
 	</delete>
 </mapper>

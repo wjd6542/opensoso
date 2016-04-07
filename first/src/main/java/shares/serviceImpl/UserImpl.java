@@ -2,9 +2,12 @@ package shares.serviceImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
 import shares.dao.AbstractDAO;
 import shares.service.UserSvc;
 import shares.vo.UserVo;

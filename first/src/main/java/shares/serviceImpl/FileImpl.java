@@ -42,11 +42,19 @@ public class FileImpl implements FileSvc{
 	@Resource(name="AbstractDAO")
 	AbstractDAO abstractDAO;
 	
+	
 	// 파일 리스트
 	@SuppressWarnings("unchecked")
 	@Override
 	public <K, V> List<FileVo> fileList(String sqlId, HashMap<K, V> map) throws Exception {
 		return abstractDAO.selectList(sqlId, map);
+	}
+	
+	
+	// 파일 전체 카운트
+	@Override
+	public int fileCnt(String sqlId, HashMap<String, String> map) throws Exception {
+		return (int)abstractDAO.selectOne(sqlId, map);
 	}
 	
 	
@@ -62,27 +70,33 @@ public class FileImpl implements FileSvc{
 	public void fileInsert(String sqlId, HashMap<String, Object> map, MultipartHttpServletRequest multiRequest) throws Exception {
 		
 		List<MultipartFile> mf = multiRequest.getFiles("file");
-		String uploadNofile = "";
-		for(MultipartFile file : mf){
+		for(MultipartFile file : mf)
+		{
 			String oFileName = file.getOriginalFilename();
 			String back = oFileName.substring(oFileName.indexOf("."), oFileName.length());
-			long fileName = System.currentTimeMillis();
+			String fileName = String.valueOf(System.currentTimeMillis()) + back;
 			long size = file.getSize();
-			if(Files.fileExtensionCheck(back) == false && Files.fileSizeCheck(size) == false){
+			if(Files.fileExtensionCheck(back) == false && Files.fileSizeCheck(size) == false)
+			{
+				if(map.get("fileName") == "" || map.get("fileName") == null)
+				{
+					map.put("fileName", fileName);
+				}
+				else
+				{
+					fileName = (String) map.get("fileName");
+				}
+				
 				map.put("oName", oFileName);
-				map.put("fileName", fileName + back);
 				map.put("fileSize", size);
 				
 				// 파입 업로드
-				file.transferTo(new File(Var.filepath + fileName + back));
+				file.transferTo(new File(Var.filePath + fileName));
 				
 				// DB 데이터 삽입
 				abstractDAO.insert(sqlId, map);
-			}else{
-				uploadNofile += oFileName + ", ";
 			}
 		}
-		System.out.println(uploadNofile);
 	}
 	
 	

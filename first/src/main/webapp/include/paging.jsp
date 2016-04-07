@@ -1,3 +1,17 @@
+<%
+/**
+ * 
+ * @author	강정권
+ * @date	2016-03-02
+ * @tip		페이징 처리 화면
+ * <pre>
+ * -------- 수정이력 --------------
+ * 수정자	:	강정권
+ * 수정일자	:	2016-03-02
+ * 수정내용	:	페이지수정
+ * ----------------------------
+ */
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -8,7 +22,7 @@
 				<span aria-hidden="true">&laquo;</span>
 			</a>
 		</li>
-		<li class="disabled">
+		<li class="disabled hidden-xs">
 			<a>총 ${paging.totalCount} 건</a>
 		</li>
 		<li>

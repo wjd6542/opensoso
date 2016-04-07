@@ -18,7 +18,7 @@ $('#summernote').summernote({
 		['style', ['style','fontsize','color' ]],
 		['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
 		['table', ['table','link','codeview']],
-		['help', ['fullscreen','undo','redo','help']],
+		['help', ['fullscreen','undo','redo','help','video']],
 	],
 });
 
@@ -38,8 +38,9 @@ toolbar();
 
 // 코드 추가 모달 호출
 $(".codeAdd").on("click", function(){
-	$('#aModal').modal("show");
+	$('#infoModal').modal("show");
 });
+
 
 // 메모 영역에 코드 추가
 $(".codeAddend").on("click", function(){
@@ -47,7 +48,7 @@ $(".codeAddend").on("click", function(){
 	var val = $('#summernote').summernote("code");
 	$('#summernote').summernote("code", val + "<p></p><pre>" + text + "</pre><p></p>");
 	$('#text').val("");
-	$('#aModal').modal("hide");
+	$('#infoModal').modal("hide");
 });
 
 
@@ -82,9 +83,10 @@ $(".fileAdd").on("click", function(){
 $(".insert,.update,.delete").on("click",function(){
 	var url = "/borderAction.do";
 	var form = {};
+	var rerultObj = {};
 	var actionType = $(this).attr("contextmenu");
 	var borderType = $("#borderType").val();
-	
+	var ajax = false;
 	// 노트에서 생성된 코드를 momo로 이동
 	$('#memo').val($('#summernote').summernote("code"));
 	
@@ -95,54 +97,38 @@ $(".insert,.update,.delete").on("click",function(){
 		if($.util.nullCheck("memo","내용 을 입력해 주세요")) return false;
 		ajax = true;
 	}else{
-		if(confirm("삭제하시겠습니까 ?")){
-			$("#actionType").val("delete");
-			ajax = true;
-		}else{
-			return true;
-		}
-	}
-	
-	form = new FormData($("#form")[0]);
-	
-	if(ajax = true){
-		// 아작스 통신
-		$.ajax({
-			url: url,
-			type: "POST",
-			data: form,
-			async: false,
-			cache: false,
-			contentType: false,
-			processData: false,
-			// 성공
-			success:  function(data){
-				if(data.code == "SUCC"){
-					alert(data.msg);
-					$("#form").attr("action","/borderList.do");
-					$("#form").submit();
-				}else{
-					alert(data.msg);
-				}
-			},
-			// 실패
-			error:function(request,status,error){
-				alert("시스템 에러 입니다. 에러코드 : "+request.status);
+		alertify.confirm("삭제하시겠습니까 ?", function(e){
+			if(e)
+			{
+				$("#actionType").val("delete");
+				ajax = true;
 			}
+			else
+			{
+				ajax  = false;
+			}
+				
 		});
 	}
-});
-
-
-// 스크롤시 리모콘 이동
-$(window).scroll(function(){
-	var borderWid = parseInt($(".borderArr").css("width"));
-	$(".remocon").css("left", borderWid + 250 + "px");
-	$(".remocon").css("width", 179 + "px");
-	$(".remocon").css("position","fixed");
-	var surrPosition = parseInt($(".remocon").css("top"));
-	var position = $(window).scrollTop();
-	$(".remocon").stop().animate({top : position + surrPosition + "px"}, 1000);
+	
+	// 오브젝트 데이터 추출
+	form = new FormData($("#form")[0]);
+	
+	// 아작스 여부 확인
+	if(ajax == true)
+	{
+		data = $.util.ajaxFrom(url, form);
+		// 결과 확인
+		if(data.code == "SUCC")
+		{
+			alertify.alert(data.msg, function(e){
+				$("#form").attr("action","/borderList.do");
+				$("#form").submit();
+			});
+		}else{
+			alertify.alert(data.msg);
+		}
+	}
 });
 
 
@@ -160,6 +146,7 @@ $(document).on("click",".fileDelete",function(){
 });
 
 
+// 아작스 시작시 실행
 $(document).ajaxStart(function(){
 	$.LoadingOverlay("show", {
 		image		: "",
@@ -168,6 +155,8 @@ $(document).ajaxStart(function(){
 	});
 });
 
+
+// 아작스 종료 시 실행
 $(document).ajaxStop(function(){
 	$.LoadingOverlay("hide", {
 		image		: "",

@@ -1,5 +1,9 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/java/shares/controller/BorderCon.java=UTF-8
+encoding//src/main/java/shares/controller/ErrorCon.java=UTF-8
+encoding//src/main/java/shares/serviceImpl/AccessImpl.java=UTF-8
+encoding//src/main/java/shares/serviceImpl/EmailImpl.java=UTF-8
 encoding//src/main/java/shares/serviceImpl/FileImpl.java=UTF-8
+encoding//src/main/java/shares/serviceImpl/NotelImpl.java=UTF-8
 encoding//src/test/java=UTF-8

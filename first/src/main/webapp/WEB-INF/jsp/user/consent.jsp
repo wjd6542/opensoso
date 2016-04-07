@@ -2,15 +2,14 @@
 /**
  * 
  * @author	강정권
- * @date	2015-10-17
- * @tip		로그인화면
+ * @date	2016-03-02
+ * @tip		약관 동의 화면
  * <pre>
- * -------- 수정이력 ----------
+ * -------- 수정이력 --------------
  * 수정자	:	강정권
- * 수정일자	:	2015-10-17
+ * 수정일자	:	2016-03-02
  * 수정내용	:	페이지수정
  * ----------------------------
- * </pre>
  */
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -23,8 +22,11 @@
 <body>
 	<div class="container-fluid">
 		<div class="row">
-			<!-- 서브메뉴 -->
-			<jsp:include page="/include/sideMemu.jsp"/>
+			<!-- 사이드 메뉴 -->
+			<div class="leftSideMemu">
+				<jsp:include page="/include/sideMemu.jsp"/>
+			</div>
+			
 			
 			<!-- content -->
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -279,7 +281,9 @@
 					</div>
 				</div>
 			</div>
+			
 		</div>
+		
 	</div>
 </body>
 <!-- 스크립트 -->

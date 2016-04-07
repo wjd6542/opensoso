@@ -49,7 +49,7 @@ public class SystemCon {
 	public ModelAndView tableManager(SystemTableVo vo , ModelAndView mv) throws Exception{
 		List<SystemTableVo> tableList = systemSvc.list(Var.sysTableList, vo);
 		mv.addObject("tableList", tableList);
-		mv.setViewName("manager/system/tableManager");
+		mv.setViewName("admin/system/tableManager");
 		return mv;
 	}
 	
@@ -64,7 +64,6 @@ public class SystemCon {
 	 */
 	@RequestMapping(value="/codeManager.do")
 	public ModelAndView codeManager(SystemVo system, ModelAndView mv) throws Exception{
-		
 		// 대분류 검색 데이터
 		List<SystemVo> codeList = systemSvc.list(Var.sysCodeList, system);
 		// 소분류 검색 데이터
@@ -73,20 +72,12 @@ public class SystemCon {
 		if(system.getSystemCode() != null)
 			valueList = systemSvc.list(Var.sysValueList, system);
 		
-		// select box 생성
-		//List<SystemVo> psmaps = systemSvc.list("systemValue.codeList", "systemCode");
-		//List<SystemVo> csmap = systemSvc.list("systemValue.codeList", "ccode");
-		//mv.addObject("pSearch", Function.sysOption(psmaps, system.getSerchType()));
-		//mv.addObject("cSearch", Function.sysOption(csmap, system.getSerchType()));
-		//mv.addObject("pString", system.getSerchString());
-		//mv.addObject("cString", system.getSerchString());
-		
 		// 화면단 데이터 생성
 		mv.addObject("codeNo", system.getNo());
 		mv.addObject("systemCode", system.getSystemCode());
 		mv.addObject("codeList", codeList);
 		mv.addObject("valueList", valueList);
-		mv.setViewName("/manager/system/codeManager");
+		mv.setViewName("/admin/system/codeManager");
 		return mv;
 	}
 	
@@ -147,7 +138,7 @@ public class SystemCon {
 		else
 			sqlId = Var.sysValueCheck;
 		
-		String result = systemSvc.check(sqlId, system.getCode());
+		String result = systemSvc.check(sqlId, system);
 		if(result == null || result == "")
 		{
 			mv.addObject("code", "SUCC");

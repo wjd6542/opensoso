@@ -17,7 +17,7 @@ import shares.vo.SystemBorderVo;
  * </pre>
  *
  */
-public interface systemBorderSvc {
+public interface SystemBorderSvc {
 	// 게시판 리스트
 	List<SystemBorderVo> borderList(String sqlId,  HashMap<String,String> map) throws Exception;
 	

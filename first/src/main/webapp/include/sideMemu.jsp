@@ -1,63 +1,79 @@
+<%
+/**
+ * 
+ * @author	강정권
+ * @date	2016-03-02
+ * @tip		서브 메뉴 화면
+ * <pre>
+ * -------- 수정이력 --------------
+ * 수정자	:	강정권
+ * 수정일자	:	2016-03-02
+ * 수정내용	:	페이지수정
+ * ----------------------------
+ */
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<script type="text/javascript">
-$(document).ready(function ()
-{
-	// 메뉴 색상 설정
-	$.util.setColor(".sidemenu","memuid","Y");
-});
-</script>
+<jsp:useBean id="user" class="shares.vo.UserVo" scope="session" />
+<c:set var="authority" value="${user.authority}"/>
 
 <div class="hidden-xs col-sm-2 sidebar">
-	<h5><b>게시판</b></h5>
+	<h4><b>게시판</b></h4>
 	<ul class="nav nav-sidebar">
-		<li class="sidemenu" id="anm">
+		<li class="sidemenu notice" id="notice">
 			<a href="/borderList.do?borderType=B01"><i class="fa fa-lg fa-eye"></i> 공지게시판</a>
 		</li>
-		<li class="sidemenu" id="reple">
+		<li class="sidemenu reple" id="reple">
 			<a href="/borderList.do?borderType=B02"><i class="fa fa-lg fa-comments-o"></i> Q＆A 게시판</a>
 		</li>
-		<li class="sidemenu" id="code">
+		<li class="sidemenu sos" id="sos">
 			<a href="/borderList.do?borderType=B03"><i class="fa fa-lg fa-refresh"></i> 소스공유</a>
 		</li>
-		<li class="sidemenu" id="com">
+		<li class="sidemenu com" id="com">
 			<a href="/borderList.do?borderType=B04"><i class="fa fa-lg fa-paper-plane"></i> 커뮤니티</a>
+		</li>
+		<li class="sidemenu lecture" id="lecture">
+			<a href="/borderList.do?borderType=B05"><i class="fa fa-desktop"></i> 강의</a>
 		</li>
 	</ul>
 	
-	<h5><b>관리자 메뉴</b></h5>
+	
+	<c:if test="${authority == 'master'}">
+	<h4><b>관리자 메뉴</b></h4>
 	<ul class="nav nav-sidebar">
-		<li class="sidemenu" id="member" contextmenu="/userManager.do">
+		<li class="sidemenu member" id="member" contextmenu="/userManager.do">
 			<a href="#"><i class="fa fa-lg fa-users"></i> 회원 관리</a>
 		</li>
-		<li class="sidemenu" id="baranch" contextmenu="/baranchManager.do">
+		<li class="sidemenu baranch" id="baranch" contextmenu="/baranchManager.do">
 			<a href="#"><i class="fa fa-lg fa-cubes"></i> 부서 관리</a>
 		</li>
-		<li class="sidemenu" id="border" contextmenu="/borderManager.do">
+		<li class="sidemenu borders" id="borders" contextmenu="/borderManager.do">
 			<a href="#"><i class="fa fa-lg fa-object-ungroup"></i> 게시판 관리</a>
 		</li>
-		<li class="sidemenu" id="access" contextmenu="/accessManager.do">
+		<li class="sidemenu file" id="file" contextmenu="/fileManager.do">
+			<a href="#"><i class="fa fa-lg fa-file"></i> 파일 관리</a>
+		</li>
+		<li class="sidemenu emails" id="emails" contextmenu="/emailManager.do">
+			<a href="#"><i class="fa fa-lg fa-envelope"></i> 이메일 관리</a>
+		</li>
+		<li>
+			<div style="border:0.5px solid #eee"></div>
+		</li>
+		<li class="sidemenu access" id="access" contextmenu="/accessManager.do">
 			<a href="#"><i class="fa fa-lg fa-ban"></i> 접근관리</a>
 		</li>
-		<li class="dropdown sidemenu">
-			<a href="#" class="sidemenu" id="Menus" data-toggle="dropdown">
-				<i class="fa fa-lg fa-cog fa-spin"></i> 시스템 <i class="caret"></i>
-			</a>
-			<ul class="dropdown-menu" role="menu" aria-labelledby="Menus">
-				<li class="sidemenu" id="systemTable" contextmenu="/tableManager.do">
-					<a href="#"><i class="fa fa-lg fa-database"></i> 테이블 관리</a>
-				</li>
-				<li class="sidemenu" id="systemCode" contextmenu="/codeManager.do">
-					<a href="#"><i class="fa fa-lg fa-cog fa-spin"></i> 코드 관리</a>
-				</li>
-				<li class="sidemenu" id="systemProm" contextmenu="/authorityManager.do">
-					<a href="#"><i class="fa fa-lg fa-exclamation-circle"></i> 권한 관리</a>
-				</li>
-			</ul>
+		<li class="sidemenu systemTable" id="systemTable" contextmenu="/tableManager.do">
+			<a href="#"><i class="fa fa-lg fa-database"></i> 테이블 관리</a>
+		</li>
+		<li class="sidemenu systemCode" id="systemCode" contextmenu="/codeManager.do">
+			<a href="#"><i class="fa fa-lg fa-cog fa-spin"></i> 코드 관리</a>
+		</li>
+		<li class="sidemenu systemProm" id="systemProm" contextmenu="/authorityManager.do">
+			<a href="#"><i class  ="fa fa-lg fa-exclamation-circle"></i> 권한 관리</a>
 		</li>
 	</ul>
+	</c:if>
 </div>
 	

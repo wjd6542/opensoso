@@ -5,25 +5,9 @@
  */
 
 
-// 파일 다운로드 함수
-$.download = function(url, data, method){
-	// url과 data를 입력받음
-	if( url && data ){ 
-		// data 는  string 또는 array/object 를 파라미터로 받는다.
-		data = typeof data == 'string' ? data : jQuery.param(data);
-		// 파라미터를 form의  input으로 만든다.
-		var inputs = '';
-		$.each(data.split('&'), function(){ 
-			var pair = this.split('=');
-			inputs+='<input type="hidden" name="'+ pair[0] +'" value="'+ pair[1] +'" />'; 
-		});
-		// request를 보낸다.
-		$('<form action="'+ url +'" method="'+ (method||'post') +'">'+inputs+'</form>').appendTo('body').submit().remove();
-	};
-};
-
 //작성페이지
-$(".update").on("click",function(){
+$(".update").on("click",function()
+{
 	var url = "/borderWrite.do";
 	$("#form").attr("action",url);
 	$("#form").submit();
@@ -31,7 +15,8 @@ $(".update").on("click",function(){
 
 
 // 추천수 수정, 추천수 다운
-$(".hitUp, .hitDown").on("click",function(){
+$(".hitUp, .hitDown").on("click",function()
+{
 	var url = "/GoodCntAction.do";
 	var no = $("#borderNo").val();
 	var actionType = $(this).attr("contextmenu");
@@ -42,37 +27,78 @@ $(".hitUp, .hitDown").on("click",function(){
 	data = $.util.ajaxData(url, result);
 	
 	// 결과 출력
-	if(data.code == "SUCC"){
+	if(data.code == "SUCC")
+	{
 		$(".goodCnt").text(data.goodCnt);
-	}else{
-		alert(data.msg);
+	}
+	else
+	{
+		alertify.alert(data.msg);
 	}
 });
 
 
 // 파일다운로드
-$(".fileDown").on("click",function(){
+$(".fileDown").on("click",function()
+{
 	var url = "/fileDown.do";
 	var no = $(this).attr("dir");
 	var result = {no : no};
-	$.download(url, result, 'post');
+	$.util.fileDown(url, result, 'post');
 });
 
 
 // 비공개 처리
-$(".secret").on("click",function(){
+$(".secret").on("click",function()
+{
 	var url = "/borderSecret.do";
 	var no = $("#borderNo").val();
 	var result = {no : no};
-	
+	var data = {};
 	data = $.util.ajaxData(url, result);
 	
 	// 결과 출력
-	if(data.code == "SUCC"){
-		alert(data.msg);
-		$("#form").attr("action","/borderList.do");
-		$("#form").submit();
-	}else{
-		alert(data.msg);
+	if(data.code == "SUCC")
+	{
+		alertify.alert(data.msg, function(e)
+		{
+			$("#form").attr("action","/borderList.do");
+			$("#form").submit();
+		});
+	}
+	else
+	{
+		alertify.alert(data.msg);
+	}
+});
+
+
+// 쪽지 발송
+$(".send").on("click",function()
+{
+	var url = "/sendNote.do";
+	var idArr = new Array("fromId","toId","toName","title","memo");
+	var result = {};
+	var data = {};
+	
+	// 유효성 검사
+	if($.util.nullCheck("title","제목 필수 입니다.")) return false;
+	if($.util.nullCheck("memo","내용 은 필수 입니다.")) return false;
+	
+	// json 생성
+	result = $.util.jsonObjectMk(idArr);
+	
+	// 아작스 실행
+	data = $.util.ajaxData(url, result);
+	
+	if(data.code == "SUCC")
+	{
+		alertify.alert(data.msg,function(e){
+			$("#noteModal").modal("hide");
+		});
+	}
+	else
+	{
+		alertify.alert(data.msg);
 	}
 });

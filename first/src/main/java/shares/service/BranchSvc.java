@@ -1,6 +1,7 @@
 package shares.service;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import shares.vo.BranchVo;
 
 /**
  * 
@@ -18,15 +19,17 @@ import java.util.HashMap;
  */
 public interface BranchSvc {
 	// 부서 리스트
-	ArrayList<HashMap<String,String>> selectBranchList(String sqlId,  HashMap<String,String> map) throws Exception;
+	List<BranchVo> list(String sqlId,  HashMap<String,String> map) throws Exception;
 	// 부서 검색
-	HashMap<String, String>branchSelect(String sqlId, String value) throws Exception;
+	BranchVo data(String sqlId, HashMap<String,String> map) throws Exception;
 	// 중복 확인
 	String checkCode(String sqlId, String value) throws Exception;
+	// 채번
+	String dataNum(String sqlId, HashMap<String,String> map) throws Exception;
 	// 부서 삽입
-	void branchInsert(String sqlId, HashMap<String, String> map) throws Exception;
+	void insert(String sqlId, HashMap<String, String> map) throws Exception;
 	// 부서 수정
-	void branchUpdate(String sqlId, HashMap<String, String> map) throws Exception;
+	void update(String sqlId, HashMap<String, String> map) throws Exception;
 	// 부서 삭제
-	void branchDelete(String sqlId, HashMap<String, String> map) throws Exception;
+	void delete(String sqlId, HashMap<String, String> map) throws Exception;
 }

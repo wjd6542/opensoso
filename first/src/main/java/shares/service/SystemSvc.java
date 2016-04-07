@@ -29,7 +29,7 @@ public interface SystemSvc {
 	List<SystemVo> list(String sqlId, String value) throws Exception;
 	
 	// 코드 중복 채크
-	String check(String sqlId, String vo) throws Exception;
+	String check(String sqlId, SystemVo vo) throws Exception;
 	
 	// 환경설정 삽입
 	void insert(String sqlId, SystemVo vo) throws Exception;

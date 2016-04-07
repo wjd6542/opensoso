@@ -5,25 +5,34 @@
  */
 
 
+// 권한 채크 함수
+$.util.authorityCheck("m");
+
 
 // 페이지 이동
 $.util.pageMove();
+
+
+//엔터 검색
+$.util.enterSet("searchString","search");
+
 
 // 고객정보 수정
 $(".viewInfo").on("click",function(){
 	var url = "/userData.do";
 	var no = $(this).attr("dir");
 	var jsonObject = {no : no};
-	var returnObj = {};
+	var data = {};
 	var mapArr = {};
 	
-	returnObj = $.util.ajaxData(url, jsonObject);
-	mapArr = returnObj.userVo;
+	data = $.util.ajaxData(url, jsonObject);
+	mapArr = data.userVo;
 	$.util.mapDataMove(mapArr);
 	$.util.rowColor(this);
 	
 	$('#aModal').modal("show");
 });
+
 
 // 고객정보 수정
 $(".update").on("click",function(){
@@ -33,6 +42,7 @@ $(".update").on("click",function(){
 	result = $.util.jsonObjectMk(userArr,"form");
 	$.util.ajaxAction(url, location.href, result);
 });
+
 
 // 고객정보 삭제
 $(".delete").on("click",function(){

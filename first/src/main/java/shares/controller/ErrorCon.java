@@ -1,31 +1,43 @@
 package shares.controller;
+import java.util.HashMap;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import shares.service.AccessSvc;
+import shares.var.Var;
+
 /**
  * 
- * @author	°­Á¤±Ç
+ * @author	ê°•ì •ê¶Œ
  * @date	2015-11-07
- * @tip		¿¡·¯ Controller
+ * @tip		ì—ëŸ¬ Controller
  * <pre>
- * -------- ¼öÁ¤ÀÌ·Â --------------
- * ¼öÁ¤ÀÚ	:	°­Á¤±Ç
- * ¼öÁ¤ÀÏÀÚ	:	2015-11-23
- * ¼öÁ¤³»¿ë	:	class ÀÛ¼º
+ * -------- ìˆ˜ì •ì´ë ¥ --------------
+ * ìˆ˜ì •ì	:	ê°•ì •ê¶Œ
+ * ìˆ˜ì •ì¼ì	:	2015-11-23
+ * ìˆ˜ì •ë‚´ìš©	:	class ì‘ì„±
  * ----------------------------
  * </pre>
  *
  */
 @Controller
 public class ErrorCon {
-	// ·Î°Å
+	// ë¡œê±°
 	Logger log = Logger.getLogger(this.getClass());
 	
+	// ì ‘ê·¼ê´€ë¦¬ ì„œë¹„ìŠ¤ ì—°ê²°
+	@Resource(name="AccessSvc")
+	private AccessSvc accessSvc;
+	
+	
 	/**
-	 * 400 ¿¡·¯ ÆäÀÌÁö
+	 * ì„¤ëª… : 400 ì—ëŸ¬ í˜ì´ì§€
 	 * @param paramMap
 	 * @return
 	 * @throws Exception
@@ -33,14 +45,22 @@ public class ErrorCon {
 	@RequestMapping(value="/error/400.do")
 	public ModelAndView error400(HttpServletRequest request, ModelAndView mv ) throws Exception
 	{
-		System.out.println("ÆÄ¶ó¹ÌÅÍ ¿À·ù");
+		HashMap<String, String> map = new HashMap<String, String>();
+		try{
+			map.put("ip", request.getLocalAddr());
+			map.put("type", "400");
+			map.put("path", (String)request.getAttribute("javax.servlet.forward.request_uri"));
+			accessSvc.accessInsert(Var.accessInsert, map);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		mv.setViewName("/error/400");
 		return mv;
 	}
 	
 	
 	/**
-	 * 404 ¿¡·¯ ÆäÀÌÁö
+	 * ì„¤ëª… : 404 ì—ëŸ¬ í˜ì´ì§€
 	 * @param paramMap
 	 * @return
 	 * @throws Exception
@@ -48,14 +68,22 @@ public class ErrorCon {
 	@RequestMapping(value="/error/404.do")
 	public ModelAndView error404(HttpServletRequest request, ModelAndView mv ) throws Exception
 	{
-		System.out.println("°æ·Î ÀÌÅ»");
+		HashMap<String, String> map = new HashMap<String, String>();
+		try{
+			map.put("ip", request.getLocalAddr());
+			map.put("type", "404");
+			map.put("path", (String)request.getAttribute("javax.servlet.forward.request_uri"));
+			accessSvc.accessInsert(Var.accessInsert, map);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		mv.setViewName("/error/404");
 		return mv;
 	}
 	
 	
 	/**
-	 * 500 ¿¡·¯ ÆäÀÌÁö
+	 * ì„¤ëª… : 500 ì—ëŸ¬ í˜ì´ì§€
 	 * @param paramMap
 	 * @return
 	 * @throws Exception
@@ -63,14 +91,22 @@ public class ErrorCon {
 	@RequestMapping(value="/error/500.do")
 	public ModelAndView error500(HttpServletRequest request, ModelAndView mv) throws Exception
 	{
-		System.out.println("³»ºÎ¿À·ù °³¹ßÀÚ ¸ÛÃ»ÀÌ");
+		HashMap<String, String> map = new HashMap<String, String>();
+		try{
+			map.put("ip", request.getLocalAddr());
+			map.put("type", "500");
+			map.put("path", (String)request.getAttribute("javax.servlet.forward.request_uri"));
+			accessSvc.accessInsert(Var.accessInsert, map);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		mv.setViewName("/error/500");
 		return mv;
 	}
 	
 	
 	/**
-	 * 405 ¿¡·¯ ÆäÀÌÁö
+	 * ì„¤ëª… : 405 ì—ëŸ¬ í˜ì´ì§€
 	 * @param paramMap
 	 * @return
 	 * @throws Exception
@@ -78,7 +114,15 @@ public class ErrorCon {
 	@RequestMapping(value="/error/405.do")
 	public ModelAndView error405(HttpServletRequest request, ModelAndView mv) throws Exception
 	{
-		System.out.println("ºÒ¹ıÁ¢±Ù");
+		HashMap<String, String> map = new HashMap<String, String>();
+		try{
+			map.put("ip", request.getLocalAddr());
+			map.put("type", "405");
+			map.put("path", (String)request.getAttribute("javax.servlet.forward.request_uri"));
+			accessSvc.accessInsert(Var.accessInsert, map);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		mv.setViewName("/error/405");
 		return mv;
 	}

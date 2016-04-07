@@ -19,10 +19,10 @@ import shares.vo.UserVo;
  *
  */
 public interface UserSvc {
-	// 유저 검색
+	// 유저 리스트 검색
 	List<UserVo> selectUserList(String sqlId, HashMap<String, String> map) throws Exception;
 	// 유저확인
-	UserVo userData(String sqlId, Map<String, String> paramMap) throws Exception;
+	UserVo userData(String sqlId, Map<String, String> map) throws Exception;
 	// 중복확인
 	String idCheck(String sqlId, String value) throws Exception;
 	// 전체 갯수 

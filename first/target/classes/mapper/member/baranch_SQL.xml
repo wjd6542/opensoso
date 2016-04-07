@@ -3,59 +3,91 @@
 
 <mapper namespace="branch">
 	
-	<!--  user 검색 List -->
-	<select id="selectBranchList" parameterType="hashmap" resultType="hashmap">
+	<!-- 부서 검색 List -->
+	<select id="list" parameterType="hashmap" resultType="shares.vo.BranchVo">
 		select
 			*
 		from
 			branch
-		order by family desc, depth asc
+		order by grupNo asc, depthNo desc
 	</select>
 	
-	<!--  user 검색 -->
-	<select id="selectBranch" parameterType="hashmap" resultType="hashmap">
-			select
-				*
-			from
-				branch
-			where id = #{id} and password =  #{pw}
-	</select>
-
-	<!-- ID 중복확인 -->
-	<select id="idCheck" parameterType="string" resultType="string">
-		select
-			id
+	
+	<!-- 부서 정보 -->
+	<select id="data" parameterType="hashmap" resultType="shares.vo.BranchVo">
+		select *
 		from
 			branch
 		where
-			id=#{id}
+			status = 'Y' and no = #{no}
 	</select>
 	
-	<!-- 유저 삽입 -->
-	<insert id="insertBranch" parameterType="hashmap" useGeneratedKeys="true">
+	
+	<!-- 깊이 정보 -->
+	<select id="num" parameterType="hashmap" resultType="String">
+		select max(no)
+		from
+			branch
+	</select>
+	
+	
+	<!-- 부서 삽입 -->
+	<insert id="insert" parameterType="hashmap">
 		insert into branch
 		(
-		
+		name,
+		code,
+		sort,
+		grupNo,
+		depthNo,
+		memo,
+		status
 		)
 		values
 		(
-
+		#{name},
+		#{code},
+		#{sort},
+		#{grupNo},
+		#{depthNo},
+		#{memo},
+		'Y'
 		)
 	</insert>
 	
-	<!-- 유저 수정 -->
-	<update id="updateBranch" parameterType="hashmap">
-		update
-			branch
-		set
-			
-		where
-			idx = #{idx}
+	
+	<!-- 부서정보 수정 -->
+	<update id="update" parameterType="hashmap">
+		update branch
+		<trim prefix="set" suffixOverrides=",">
+		<if test="name != null and name != ''">
+			name=#{name},
+		</if>
+		<if test="code != null and code != ''">
+			code=#{code},
+		</if>
+		<if test="sort != null and sort != ''">
+			sort=#{sort},
+		</if>
+		<if test="grupNo != null and grupNo != ''">
+			grupNo=#{grupNo},
+		</if>
+		<if test="depthNo != null and depthNo != ''">
+			depthNo=#{depthNo},
+		</if>
+		<if test="memo != null and memo != ''">
+			memo=#{memo},
+		</if>
+		<if test="status != null and status != ''">
+			status=#{status},
+		</if>
+		</trim>
+		where status = 'Y' and no = #{no}
 	</update>
 	
-	<!-- 유저 삭제 -->
-	<delete id="deleteBranch" parameterType="hashmap">
-		delete from branch
-		where idx = #{idx}
+	
+	<!-- 부서정보 삭제 -->
+	<delete id="delete" parameterType="hashmap">
+		delete from branch where no = #{no}
 	</delete>
 </mapper>

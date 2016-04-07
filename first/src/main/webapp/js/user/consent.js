@@ -8,8 +8,8 @@
 // 회원가입
 $(".join").on("click",function(){
 	// 유효성 검사
-	if($.util.nullCheck("joinCk","약관동의는 필수입니다.")) return false;
-	if($.util.nullCheck("ssnCk","약관동의는 필수입니다.")) return false;
+	if($.util.ridioValCheck("joinCk", "Y","회원가입 약관동의는 필수입니다.")) return false;
+	else if($.util.ridioValCheck("ssnCk", "Y","개인정보 약관동의는 필수입니다.")) return false;
 	
 	$(location).attr('href',"/join.do");
 });
@@ -25,6 +25,9 @@ $(".allCheck").on("click",function(){
 
 //라디오박스 전체 체크
 $(".simpleJoin").on("click",function(){
-	var url = "/simpleJoin.do";
-	$(location).attr('href',url);
+	// 유효성 검사
+	if($.util.ridioValCheck("joinCk", "Y","회원가입 약관동의는 필수입니다.")) return false;
+	else if($.util.ridioValCheck("ssnCk", "Y","개인정보 약관동의는 필수입니다.")) return false;
+	
+	$(location).attr('href', "/simpleJoin.do");
 });

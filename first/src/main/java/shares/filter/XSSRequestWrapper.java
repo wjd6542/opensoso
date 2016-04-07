@@ -14,23 +14,15 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	
 	private static Pattern[] patterns = new Pattern[] {
 			Pattern.compile("<script>(.*?)</script>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'",
-					Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
-							| Pattern.DOTALL),
-			Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"",
-					Pattern.CASE_INSENSITIVE | Pattern.MULTILINE
-							| Pattern.DOTALL),
+			Pattern.compile("src[\r\n]*=[\r\n]*\\\'(.*?)\\\'", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
+			Pattern.compile("src[\r\n]*=[\r\n]*\\\"(.*?)\\\"", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
 			Pattern.compile("</script>", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE
-					| Pattern.MULTILINE | Pattern.DOTALL),
-			Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE
-					| Pattern.MULTILINE | Pattern.DOTALL),
-			Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE
-					| Pattern.MULTILINE | Pattern.DOTALL),
+			Pattern.compile("<script(.*?)>", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
+			Pattern.compile("eval\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
+			Pattern.compile("expression\\((.*?)\\)", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL),
 			Pattern.compile("javascript:", Pattern.CASE_INSENSITIVE),
 			Pattern.compile("vbscript:", Pattern.CASE_INSENSITIVE),
-			Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE
-					| Pattern.MULTILINE | Pattern.DOTALL)
+			Pattern.compile("onload(.*?)=", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE | Pattern.DOTALL)
 	};
 
 	public XSSRequestWrapper(HttpServletRequest servletRequest) {
@@ -42,7 +34,6 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	 */
 	@Override
 	public String[] getParameterValues(String parameter) {
-		logs.info("getParameterValues");
 		String[] values = super.getParameterValues(parameter);
 
 		if (values == null) {
@@ -65,7 +56,6 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	 */
 	@Override
 	public String getParameter(String parameter) {
-		logs.info("getParameter");
 		String value = super.getParameter(parameter);
 		return stripXSS(value);
 	}
@@ -75,7 +65,6 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	 */
 	@Override
 	public String getHeader(String name) {
-		logs.info("getHeader");
 		String value = super.getHeader(name);
 		return stripXSS(value);
 	}
@@ -86,7 +75,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 	 * @return
 	 */
 	private String stripXSS(String value) {
-		//logs.info("XSS	inint	:	" + value);
+		logs.info("XSS	inint	:	" + value);
 		if (value != null) {
 
 			// NOTE: It's highly recommended to use the ESAPI library and

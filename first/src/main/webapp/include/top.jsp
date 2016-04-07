@@ -1,7 +1,26 @@
+<%
+/**
+ * 
+ * @author	강정권
+ * @date	2016-03-02
+ * @tip		최 상단 화면
+ * <pre>
+ * -------- 수정이력 --------------
+ * 수정자	:	강정권
+ * 수정일자	:	2016-03-02
+ * 수정내용	:	페이지수정
+ * ----------------------------
+ */
+%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:useBean id="user" class="shares.vo.UserVo" scope="session" />
+<c:set var="userNo" value="${user.no}"/>
+<c:set var="name" value="${user.name}"/>
+<c:set var="id" value="${user.id}"/>
+<c:set var="authority" value="${user.authority}"/>
 <!DOCTYPE>
 <html>
 <head>
@@ -18,7 +37,8 @@
 	
 	<link rel="stylesheet" href="css/jquery/dataTables.css">
 	<link rel="stylesheet" href="css/jquery/dashboard.css">
-	<link rel="stylesheet" href="css/jquery/treeview.css">
+	<link rel="stylesheet" href="css/jquery/alertify.core.css">
+	<link rel="stylesheet" href="css/jquery/alertify.default.css">
 	<link rel="stylesheet" href="css/summernote.css">
 	
 	<link rel="stylesheet" href="css/screen.css">
@@ -31,40 +51,20 @@
 	<script type='text/javascript' src='js/jquery/dataTables.min.js'></script>
 	<script type='text/javascript' src='js/jquery/loadingoverlay.js'></script>
 	<script type='text/javascript' src='js/jquery/summernote.js'></script>
-	<script type='text/javascript' src='js/jquery/summernote-kr.js'></script>
+	<script type='text/javascript' src='js/jquery/summernote_kr.js'></script>
+	<script type='text/javascript' src='js/jquery/alertify.min.js'></script>
 	
 	<script type='text/javascript' src='js/bootstrap/bootstrap.js'></script>
-	<script type='text/javascript' src='js/bootstrap/bootstrap-toggle.js'></script>
-	<script type='text/javascript' src='js/bootstrap/bootstrap-datepicker.js'></script>
-	<script type="text/javascript" src="js/util/function.js"></script>
+	<script type='text/javascript' src='js/bootstrap/bootstrap_toggle.js'></script>
+	<script type='text/javascript' src='js/bootstrap/bootstrap_datepicker.js'></script>
+	<script type="text/javascript" src="js/util/functions.js"></script>
 	<script type="text/javascript" src="js/holder.js"></script>
-	
-	<title>프로젝트</title>
 </head>
-<script type="text/javascript">
-	$(document).ready(function () {
-		// 툴팁
-		$(function () {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
-		
-		// 달력
-		$('.date').datepicker({
-			language : 'ko',
-			format: 'yyyy-mm-dd',
-			todayHighlight: true
-		});
-		
-		// 서브메뉴 색상 유지
-		$.util.sideMemulook();
-		// 서브메뉴 쿠키 생성
-		$.util.toggleCookie("sidelook","sideCheck");
-		
-	});
-	
-</script>
+
 <body>
+	<input type="hidden" id="userAuthority" value="${authority}">
 	
+	<!-- top str -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -78,53 +78,87 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/login.do">로그인</a></li>
-					<c:if test="${member.name != null}">
-						<li><a href="#">${member.name}</a></li>
-						<li><a href="/logOut.do">로그아웃</a></li>
-						<li><a href="/myPage.do">MyPage</a></li>
-					</c:if>
+					<c:choose>
+						<c:when test="${name == null || name eq ''}">
+							<li><a href="/login.do" data-transition="fade">로그인</a></li>
+						</c:when>
+						<c:when test="${authority != 'master'}">
+							<li><a href="#"><i class="fa fa-user"></i> ${name}</a></li>
+							<li><a href="/logOut.do" data-transition="fade">로그아웃</a></li>
+							<li><a href="/myPage.do" data-transition="fade">MyPage</a></li>
+						</c:when>
+						<c:otherwise>
+							<li><a href="#"><i class="fa fa-user"></i> ${name}</a></li>
+							<li><a href="/logOut.do" data-transition="fade">로그아웃</a></li>
+						</c:otherwise>
+					</c:choose>
 					
 					<!-- 게시판 -->
 					<li class="dropdown">
 						<a href="#" id="Menu" data-toggle="dropdown"> 게시판 <i class="caret"></i></a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="Menu">
-							<li>
-								<a href="/borderList.do?borderType=B01"><i class="fa fa-eye"></i> 공지게시판</a>
+							<li class="sidemenu notice" id="notice">
+								<a href="/borderList.do?borderType=B01" data-transition="slidefade"><i class="fa fa-lg fa-eye"></i> 공지게시판</a>
 							</li>
-							<li>
-								<a href="/borderList.do?borderType=B02"><i class="fa fa-comments-o"></i> Q＆A 게시판</a>
+							<li class="sidemenu reple" id="reple">
+								<a href="/borderList.do?borderType=B02" data-transition="slide"><i class="fa fa-lg fa-comments-o"></i> Q＆A 게시판</a>
 							</li>
-							<li>
-								<a href="/borderList.do?borderType=B03"><i class="fa fa-refresh"></i> 소스공유</a>
+							<li class="sidemenu sos" id="sos">
+								<a href="/borderList.do?borderType=B03" data-transition="pop"><i class="fa fa-lg fa-refresh"></i> 소스공유</a>
 							</li>
-							<li>
-								<a href="/borderList.do?borderType=B04"><i class="fa fa-paper-plane"></i> 커뮤니티</a>
+							<li class="sidemenu com" id="com">
+								<a href="/borderList.do?borderType=B04" data-transition="pop"><i class="fa fa-lg fa-paper-plane"></i> 커뮤니티</a>
 							</li>
 						</ul>
 					</li>
 					
-					<!-- 관리자 메뉴 -->
+					<c:if test="${authority == 'master'}">
 					<li class="dropdown">
 						<a href="#" id="Menus" data-toggle="dropdown"> 관리자 <i class="caret"></i></a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="Menus">
-							<li><a href="/userManager.do"><i class="fa fa-users"></i> 회원 관리</a></li>
-							<li><a href="/codeManager.do"><i class="fa fa-cog fa-spin"></i> 코드 관리</a></li>
-							<li><a href="/authorityManager.do"><i class="fa fa-exclamation-circle"></i> 권한 관리</a></li>
-							<li><a href="/accessManager.do"><i class="fa fa-ban"></i> 접근관리</a></li>
+							<li class="sidemenu member" id="member" contextmenu="/userManager.do">
+								<a href="#"><i class="fa fa-lg fa-users"></i> 회원 관리</a>
+							</li>
+							<li class="sidemenu baranch" id="baranch" contextmenu="/baranchManager.do">
+								<a href="#"><i class="fa fa-lg fa-cubes"></i> 부서 관리</a>
+							</li>
+							<li class="sidemenu borders" id="borders" contextmenu="/borderManager.do">
+								<a href="#"><i class="fa fa-lg fa-object-ungroup"></i> 게시판 관리</a>
+							</li>
+							<li class="sidemenu file" id="file" contextmenu="/fileManager.do">
+								<a href="#"><i class="fa fa-lg fa-file"></i> 파일 관리</a>
+							</li>
+							<li class="sidemenu emails" id="emails" contextmenu="/emailManager.do">
+								<a href="#"><i class="fa fa-lg fa-envelope"></i> 이메일 관리</a>
+							</li>
+							<li>
+								<div style="border:0.5px solid #eee"></div>
+							</li>
+							<li class="sidemenu access" id="access" contextmenu="/accessManager.do">
+								<a href="#"><i class="fa fa-lg fa-ban"></i> 접근관리</a>
+							</li>
+							<li class="sidemenu systemTable" id="systemTable" contextmenu="/tableManager.do">
+								<a href="#"><i class="fa fa-lg fa-database"></i> 테이블 관리</a>
+							</li>
+							<li class="sidemenu systemCode" id="systemCode" contextmenu="/codeManager.do">
+								<a href="#"><i class="fa fa-lg fa-cog fa-spin"></i> 코드 관리</a>
+							</li>
+							<li class="sidemenu systemProm" id="systemProm" contextmenu="/authorityManager.do">
+								<a href="#"><i class  ="fa fa-lg fa-exclamation-circle"></i> 권한 관리</a>
+							</li>
 						</ul>
 					</li>
-					
-					<!-- 사이드메뉴 관리 -->
+					</c:if>
 					<li class="hidden-xs dropdown">
-						<a href="#" id="side" data-toggle="dropdown"> 서브메뉴 <i class="caret"></i></a>
-						<ul class="dropdown-menu" role="side" aria-labelledby="side">
-							<li class="sidelook" contextmenu="N"><a href="#"><i class="fa fa-expand"></i> 서브매뉴 보임</a></li>
-							<li class="sidelook" contextmenu="Y"><a href="#"><i class="fa fa-compress"></i> 서브메뉴 숨김</a></li>
-						</ul>
+						<a href="/myConf.do" id="set"><i class="fa fa-cog"></i> 설정</a>
 					</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+	<!-- top end -->
+	
+	
 </body>
+<!-- 스크립트 -->
+<script type="text/javascript" src="js/important/top.js"></script>

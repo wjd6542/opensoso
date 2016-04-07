@@ -13,11 +13,6 @@ function includeJs(filename)
 
 includeJs('js/jquery.js');								// 제이쿼리
 includeJs('js/jquery.cookie.js');						// 제이쿼리 쿠키
-//includeJs('js/jquery.treeview.js');						// 제이쿼리 트리뷰 
-//includeJs('js/tree.jquery.js');							// 제이쿼리 트리
-//includeJs('js/table/jquery.dataTables.min.js');			// 제이쿼리 테이블 설정 함수
-//includeJs('js/jquery.treeselect.js');					// 제이쿼리 트리
-//includeJs('js/jquery.treeselect.min.js');				// 제이쿼리 트리
 
 
 includeJs('js/bootstrap.js');							// 부트스트랩
